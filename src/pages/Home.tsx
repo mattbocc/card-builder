@@ -24,10 +24,10 @@ const Home: React.FC = () => {
                         <img src="/images/energy/colorless.png" alt="retreat-energy" className="w-4.5 h-4.5" />
                     </div>
                 </div>
-                <div className="flex flex-col w-[500px]">
-                    <Menu as="div" className="relative inline-block w-[225px]">
+                <div className="flex flex-row flex-wrap wrap-normal gap-8 w-[400px]">
+                    <Menu as="div" className="relative inline-block w-[175px]">
                         <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50">
-                            Options
+                            Card Type
                             <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
                         </MenuButton>
 
@@ -41,7 +41,29 @@ const Home: React.FC = () => {
                                         href="#"
                                         className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                                     >
-                                        Account settings
+                                        Sun and Moon
+                                    </a>
+                                </MenuItem>
+                            </div>
+                        </MenuItems>
+                    </Menu>
+                    <Menu as="div" className="relative inline-block w-[175px]">
+                        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50">
+                            Typing
+                            <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
+                        </MenuButton>
+
+                        <MenuItems
+                            transition
+                            className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                        >
+                            <div className="py-1">
+                                <MenuItem>
+                                    <a
+                                        href="#"
+                                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                    >
+                                        Grass
                                     </a>
                                 </MenuItem>
                                 <MenuItem>
@@ -49,7 +71,7 @@ const Home: React.FC = () => {
                                         href="#"
                                         className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                                     >
-                                        Support
+                                        Water
                                     </a>
                                 </MenuItem>
                                 <MenuItem>
@@ -57,19 +79,63 @@ const Home: React.FC = () => {
                                         href="#"
                                         className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                                     >
-                                        License
+                                        Fire
                                     </a>
                                 </MenuItem>
-                                <form action="#" method="POST">
-                                    <MenuItem>
-                                        <button
-                                            type="submit"
-                                            className="block w-full px-4 py-2 text-left text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-                                        >
-                                            Sign out
-                                        </button>
-                                    </MenuItem>
-                                </form>
+                                <MenuItem>
+                                    <a
+                                        href="#"
+                                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                    >
+                                        Lightning
+                                    </a>
+                                </MenuItem>
+                            </div>
+                        </MenuItems>
+                    </Menu>
+                    <Menu as="div" className="relative inline-block w-[175px]">
+                        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50">
+                            Typing
+                            <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
+                        </MenuButton>
+
+                        <MenuItems
+                            transition
+                            className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                        >
+                            <div className="py-1">
+                                <MenuItem>
+                                    <a
+                                        href="#"
+                                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                    >
+                                        Grass
+                                    </a>
+                                </MenuItem>
+                                <MenuItem>
+                                    <a
+                                        href="#"
+                                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                    >
+                                        Water
+                                    </a>
+                                </MenuItem>
+                                <MenuItem>
+                                    <a
+                                        href="#"
+                                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                    >
+                                        Fire
+                                    </a>
+                                </MenuItem>
+                                <MenuItem>
+                                    <a
+                                        href="#"
+                                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                    >
+                                        Lightning
+                                    </a>
+                                </MenuItem>
                             </div>
                         </MenuItems>
                     </Menu>
