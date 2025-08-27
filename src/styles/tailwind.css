@@ -1,111 +1,109 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @source "./src";
 
 @theme {
+    /* Fonts */
+    --font-inter: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+        'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji';
 
-	/* Fonts */
-	--font-inter: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    /* Colors */
+    --color-yellow-1000: #fdf3e2;
+    --color-yellow-1100: #f2ac3c;
+    --color-yellow-1200: #926114;
 
-	/* Colors */
-	--color-yellow-1000: #FDF3E2;
-	--color-yellow-1100: #F2AC3C;
-	--color-yellow-1200: #926114;
+    --color-gray-50: #fafafa;
+    --color-gray-200: #e9e9e9;
+    --color-gray-400: #b5b5b5;
+    --color-gray-600: #717171;
+    --color-gray-700: #727272;
+    --color-gray-900: #212121;
+    --color-gray-1000: #d9d9d9;
 
-	--color-gray-50:  #fafafa;
-	--color-gray-200: #e9e9e9;
-	--color-gray-400: #b5b5b5;
-	--color-gray-600: #717171;
-	--color-gray-700: #727272;
-	--color-gray-900: #212121;
-	--color-gray-1000:#D9D9D9;
+    --color-cyan-1000: #3bb6ac;
+    --color-cyan-1100: #449891;
 
-	--color-cyan-1000:#3BB6AC;
-	--color-cyan-1100:#449891;
+    --color-blue-1000: #2463bc;
+    --color-blue-1100: #3b82f6;
 
-	--color-blue-1000:#2463BC;
-	--color-blue-1100:#3B82F6;
+    --color-red-1000: #d82c0d;
 
-	--color-red-1000: #D82C0D;
+    --color-open-border: #b6b6b6;
+    --color-interactive: #2463bc;
 
-	--color-open-border: #B6B6B6;
-	--color-interactive: #2463BC;
+    /* Shadows for commonly use components*/
+    --shadow-card: 0px 2px 1px 0px #0000000d;
+    --shadow-button: 0px 1px 0px 0px rgba(0 0 0 / 0.05);
 
-	/* Shadows for commonly use components*/
-	--shadow-card: 0px 2px 1px 0px #0000000d;
-	--shadow-button: 0px 1px 0px 0px rgba(0 0 0 / .05);
+    /* Radius configurations */
+    --radius-4xl: 30px;
+    --radius-4-5xl: 32px;
 
-	/* Radius configurations */
-	--radius-4xl: 30px;
-	--radius-4-5xl: 32px;
-
-	/* Spacing scale configurations */
-	--spacing-800: 800px;
-	--spacing-50: 196px;
-
+    /* Spacing scale configurations */
+    --spacing-800: 800px;
+    --spacing-50: 196px;
 }
 
-/* Font sizes with line height */ 
+/* Font sizes with line height */
 
 @utility text-heading4Xl {
-  font-size: 36px;
-  line-height: 44px;
+    font-size: 36px;
+    line-height: 44px;
 }
 
 @utility text-heading3Xl {
-  font-size: 32px;
-  line-height: 40px;
+    font-size: 32px;
+    line-height: 40px;
 }
 
 @utility text-heading2Xl {
-  font-size: 28px;
-  line-height: 32px;
+    font-size: 28px;
+    line-height: 32px;
 }
 
 @utility text-headingXl {
-  font-size: 24px;
-  line-height: 28px;
+    font-size: 24px;
+    line-height: 28px;
 }
 
 @utility text-headingLg {
-  font-size: 20px;
-  line-height: 24px;
+    font-size: 20px;
+    line-height: 24px;
 }
 
 @utility text-headingMd {
-  font-size: 16px;
-  line-height: 20px;
+    font-size: 16px;
+    line-height: 20px;
 }
 
 @utility text-headingSm {
-  font-size: 14px;
-  line-height: 16px;
+    font-size: 14px;
+    line-height: 16px;
 }
 
 @utility text-headingXs {
-  font-size: 12px;
-  line-height: 16px;
+    font-size: 12px;
+    line-height: 16px;
 }
 
 @utility text-bodyLg {
-  font-size: 16px;
-  line-height: 24px;
+    font-size: 16px;
+    line-height: 24px;
 }
 
 @utility text-bodyMd {
-  font-size: 14px;
-  line-height: 20px;
+    font-size: 14px;
+    line-height: 20px;
 }
 
 @utility text-bodySm {
-  font-size: 12px;
-  line-height: 16px;
+    font-size: 12px;
+    line-height: 16px;
 }
 
 @utility text-bodyXs {
-  font-size: 11px;
-  line-height: 14px;
+    font-size: 11px;
+    line-height: 14px;
 }
-
 
 /* Custom variants for your max-width breakpoints */
 
@@ -120,25 +118,37 @@
 
 /* Transition-property: width */
 @utility transition-width {
-	transition-property: width;
+    transition-property: width;
 }
 
 /* 1.5px border helper  */
-@utility border-1_5 { 
-	border-width: 1.5px;
+@utility border-1_5 {
+    border-width: 1.5px;
 }
 
 /* Keyframes + animations — generates `animate-show` / `animate-hide` */
 @theme {
-	--animate-show: show .3s ease-out forwards;
-	--animate-hide: hide .3s ease-in forwards;
+    --animate-show: show 0.3s ease-out forwards;
+    --animate-hide: hide 0.3s ease-in forwards;
 
-	@keyframes show {
-		0%   { opacity: 0; transform: scale(0.95) }
-		100% { opacity: 1; transform: scale(1) }
-	}
-	@keyframes hide {
-		0%   { opacity: 1; transform: scale(1) }
-		100% { opacity: 0; transform: scale(0.95) }
-	}
+    @keyframes show {
+        0% {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+    @keyframes hide {
+        0% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+    }
 }
