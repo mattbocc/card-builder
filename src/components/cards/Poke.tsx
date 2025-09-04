@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import type { CardStyleType } from '../../types/CardStyleType';
 import type { EnergyType } from '../../types/EnergyType';
+import type { AbilityType } from '../../types/AbilityType';
+import type { AttackType } from '../../types/AttackType';
 
 type CardProps = {
     cardStyle: CardStyleType;
@@ -9,6 +11,8 @@ type CardProps = {
     weaknessEnergy: EnergyType;
     resistanceEnergy: EnergyType;
     retreatEnergy: EnergyType;
+    ability: AbilityType;
+    attack: AttackType;
 };
 
 const Poke: React.FC<CardProps> = ({
@@ -17,7 +21,9 @@ const Poke: React.FC<CardProps> = ({
     evolution,
     weaknessEnergy,
     resistanceEnergy,
-    retreatEnergy
+    retreatEnergy,
+    ability,
+    attack
 }) => {
     return (
         <div className="flex flex-col w-[600px] relative">
@@ -45,9 +51,9 @@ const Poke: React.FC<CardProps> = ({
             <div className="flex flex-row gap-0.5 items-end absolute bottom-23.5 left-111 z-2">
                 {retreatEnergy.total > 0 ? (
                     <>
-                        {Array.from({ length: retreatEnergy.total }).map((_, i) => (
+                        {Array.from({ length: retreatEnergy.total }).map((_, index) => (
                             <img
-                                key={i}
+                                key={index}
                                 src={`/images/energy/${retreatEnergy.type}.png`}
                                 alt="retreat-energy"
                                 className="w-5 h-5"
@@ -55,6 +61,23 @@ const Poke: React.FC<CardProps> = ({
                         ))}
                     </>
                 ) : null}
+            </div>
+
+            <div className="flex flex-col gap-6 absolute bottom-74 z-4 px-12 w-full">
+                <div className="flex flex-row gap-8">
+                    <img src="/images/sun_moon/ability.png" />
+                    <h3 className="text-headingXl text-red-800 font-bold">{ability.name}</h3>
+                </div>
+                <h4 className="text-headingMd font-semibold">{ability.description}</h4>
+            </div>
+
+            <div className="flex flex-col gap-4 absolute bottom-52 z-4 px-12 w-full">
+                <div className="flex flex-row justify-between items-end w-full">
+                    <img src={`/images/energy/${attack.attackEnergy.type}.png`} className="w-6 h-6" />
+                    <h2 className="text-headingXl font-bold">{attack.name}</h2>
+                    <h3 className="text-headingXl font-bold">{attack.attackEnergy.total}</h3>
+                </div>
+                <h4 className="text-headingMd font-semibold">{ability.description}</h4>
             </div>
         </div>
     );
