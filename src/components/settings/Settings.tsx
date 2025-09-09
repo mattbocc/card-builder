@@ -433,8 +433,8 @@ const Settings: React.FC<SettingsProps> = ({
                     <input
                         type="range"
                         min={1}
-                        max={5}
-                        step={0.5}
+                        max={2.5}
+                        step={0.01}
                         value={zoom}
                         onChange={e => setZoom(Number(e.target.value))}
                         className="w-[420px]"

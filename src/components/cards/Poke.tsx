@@ -58,8 +58,8 @@ const Poke: React.FC<CardProps> = ({
             <div className="flex flex-row absolute top-7 left-28 z-2">
                 <span className="pokemon-title text-4xl">Matthew & Lisa</span>
             </div>
-            <div className="flex flex-col absolute rounded-4xl">
-                <img src={previewUrl} alt="cropped" className="block rounded-lg overflow-hidden" />
+            <div className="absolute top-18 rounded-4xl">
+                <img src={previewUrl} alt="cropped" className="overflow-hidden max-h-[380px]" />
             </div>
             <div className="flex flex-row gap-2 items-end absolute bottom-23.5 left-23 z-2">
                 <img src={`/images/energy/${weaknessEnergy.type}.png`} alt="weakness-energy" className="w-5 h-5" />
