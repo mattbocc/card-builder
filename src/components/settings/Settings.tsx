@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { CardStyles } from './data/CardStyles.ts';
@@ -7,7 +7,6 @@ import { CardEvolution } from './data/CardEvolutions.ts';
 import type { CardStyleType } from '../../types/CardStyleType';
 import type { EnergyType } from '../../types/EnergyType.ts';
 import { ScrollPanel } from 'primereact/scrollpanel';
-import { InputTextarea } from 'primereact/inputtextarea';
 import type { AbilityType } from '../../types/AbilityType.ts';
 import type { AttackType } from '../../types/AttackType.ts';
 
@@ -276,6 +275,7 @@ const Settings: React.FC<SettingsProps> = ({
                                 className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200 w-full"
                                 type="text"
                                 name="search"
+                                placeholder="1-24 characters"
                                 onChange={e => {
                                     setAbility({
                                         name: e.target.value,
@@ -292,6 +292,7 @@ const Settings: React.FC<SettingsProps> = ({
                                 className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200 w-full"
                                 type="text"
                                 name="search"
+                                placeholder="1-200 characters"
                                 onChange={e => {
                                     setAbility({
                                         name: ability.name,
@@ -342,7 +343,7 @@ const Settings: React.FC<SettingsProps> = ({
                             </Menu>
                             <input
                                 className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200"
-                                placeholder="Number 1-999"
+                                placeholder="Number 1-9999"
                                 type="text"
                                 name="search"
                                 onChange={e => {
@@ -365,6 +366,7 @@ const Settings: React.FC<SettingsProps> = ({
                                 className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200 w-full"
                                 type="text"
                                 name="search"
+                                placeholder="1-24 characters"
                                 onChange={e => {
                                     setAttack({
                                         name: e.target.value,
@@ -382,6 +384,7 @@ const Settings: React.FC<SettingsProps> = ({
                                 className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200 w-full"
                                 type="text"
                                 name="search"
+                                placeholder="1-200 characters"
                                 onChange={e => {
                                     setAttack({
                                         name: attack.name,

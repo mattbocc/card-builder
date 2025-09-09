@@ -3,6 +3,8 @@ import type { CardStyleType } from '../../types/CardStyleType';
 import type { EnergyType } from '../../types/EnergyType';
 import type { AbilityType } from '../../types/AbilityType';
 import type { AttackType } from '../../types/AttackType';
+import type { CropperType } from '../../types/CropperType';
+import Cropper from 'react-easy-crop';
 
 type CardProps = {
     cardStyle: CardStyleType;
@@ -13,6 +15,10 @@ type CardProps = {
     retreatEnergy: EnergyType;
     ability: AbilityType;
     attack: AttackType;
+    crop: CropperType;
+    zoom: number;
+    setCrop: React.Dispatch<React.SetStateAction<CropperType>>;
+    setZoom: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const Poke: React.FC<CardProps> = ({
@@ -23,10 +29,18 @@ const Poke: React.FC<CardProps> = ({
     resistanceEnergy,
     retreatEnergy,
     ability,
-    attack
+    attack,
+    crop,
+    zoom,
+    setCrop,
+    setZoom
 }) => {
+    const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+        console.log(croppedArea, croppedAreaPixels);
+    };
+
     return (
-        <div className="flex flex-col w-[600px] relative">
+        <div className="flex flex-col items-center w-[600px] sticky smd:static top-10 align-self">
             <img
                 src={`/images/${cardStyle.version}/${cardStyle.style}/${cardType}_${evolution}.png`}
                 alt="card-holder"
@@ -35,8 +49,16 @@ const Poke: React.FC<CardProps> = ({
             <div className="flex flex-row absolute top-7 left-28 z-2">
                 <span className="pokemon-title text-4xl">Matthew & Lisa</span>
             </div>
-            <div className="flex flex-col absolute top-10 ">
-                <img src="/images/picture/us.png" alt="card-picture" />
+            <div className="absolute bottom-36 z-0 w-full h-full">
+                <Cropper
+                    image={`/images/picture/us.png`}
+                    crop={crop}
+                    zoom={zoom}
+                    aspect={4 / 3}
+                    onCropChange={setCrop}
+                    onCropComplete={onCropComplete}
+                    onZoomChange={setZoom}
+                />
             </div>
             <div className="flex flex-row gap-2 items-end absolute bottom-23.5 left-23 z-2">
                 <img src={`/images/energy/${weaknessEnergy.type}.png`} alt="weakness-energy" className="w-5 h-5" />
@@ -77,7 +99,7 @@ const Poke: React.FC<CardProps> = ({
                     <h2 className="text-headingXl font-bold">{attack.name}</h2>
                     <h3 className="text-headingXl font-bold">{attack.attackEnergy.total}</h3>
                 </div>
-                <h4 className="text-headingMd font-semibold">{ability.description}</h4>
+                <h4 className="text-headingMd font-semibold">{attack.description}</h4>
             </div>
         </div>
     );

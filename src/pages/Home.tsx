@@ -5,6 +5,7 @@ import type { CardStyleType } from '../types/CardStyleType';
 import type { EnergyType } from '../types/EnergyType';
 import type { AbilityType } from '../types/AbilityType';
 import type { AttackType } from '../types/AttackType';
+import type { CropperType } from '../types/CropperType';
 
 const Home: React.FC = () => {
     // State Variables
@@ -39,10 +40,15 @@ const Home: React.FC = () => {
             total: 0
         }
     });
+    const [crop, setCrop] = useState<CropperType>({
+        x: 0,
+        y: 0
+    });
+    const [zoom, setZoom] = useState<number>(1);
 
     return (
-        <div className="flex flex-col h-screen justify-center items-center bg-gray-100">
-            <div className="flex flex-row justify-center items-center mx-auto gap-10 py-44">
+        <div className="flex flex-col min-h-screen bg-gray-100">
+            <div className="flex flex-row mx-auto items-start gap-10 py-10">
                 <Poke
                     cardStyle={cardStyle}
                     cardType={cardType}
@@ -52,6 +58,10 @@ const Home: React.FC = () => {
                     retreatEnergy={retreatEnergy}
                     ability={ability}
                     attack={attack}
+                    crop={crop}
+                    zoom={zoom}
+                    setCrop={setCrop}
+                    setZoom={setZoom}
                 />
                 <Settings
                     setCardStyle={setCardStyle}
