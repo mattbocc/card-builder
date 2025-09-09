@@ -6,6 +6,8 @@ import type { EnergyType } from '../types/EnergyType';
 import type { AbilityType } from '../types/AbilityType';
 import type { AttackType } from '../types/AttackType';
 import type { CropperType } from '../types/CropperType';
+import Cropper from 'react-easy-crop';
+import type { CroppedAreaPixelsType } from '../types/CroppedAreaPixelsType';
 
 const Home: React.FC = () => {
     // State Variables
@@ -45,6 +47,7 @@ const Home: React.FC = () => {
         y: 0
     });
     const [zoom, setZoom] = useState<number>(1);
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState<CroppedAreaPixelsType | null>(null);
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-100">
@@ -58,10 +61,7 @@ const Home: React.FC = () => {
                     retreatEnergy={retreatEnergy}
                     ability={ability}
                     attack={attack}
-                    crop={crop}
-                    zoom={zoom}
-                    setCrop={setCrop}
-                    setZoom={setZoom}
+                    croppedAreaPixels={croppedAreaPixels}
                 />
                 <Settings
                     setCardStyle={setCardStyle}
@@ -72,11 +72,17 @@ const Home: React.FC = () => {
                     setRetreatEnergy={setRetreatEnergy}
                     setAbility={setAbility}
                     setAttack={setAttack}
+                    setCrop={setCrop}
+                    setZoom={setZoom}
+                    setCroppedAreaPixels={setCroppedAreaPixels}
                     weaknessEnergy={weaknessEnergy}
                     resistanceEnergy={resistanceEnergy}
                     retreatEnergy={retreatEnergy}
                     ability={ability}
                     attack={attack}
+                    crop={crop}
+                    zoom={zoom}
+                    croppedAreaPixels={croppedAreaPixels}
                 />
             </div>
         </div>

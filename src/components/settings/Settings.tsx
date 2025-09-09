@@ -9,6 +9,9 @@ import type { EnergyType } from '../../types/EnergyType.ts';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import type { AbilityType } from '../../types/AbilityType.ts';
 import type { AttackType } from '../../types/AttackType.ts';
+import type { CropperType } from '../../types/CropperType';
+import type { CroppedAreaPixelsType } from '../../types/CroppedAreaPixelsType.ts';
+import Cropper from 'react-easy-crop';
 
 type SettingsProps = {
     setCardStyle: React.Dispatch<React.SetStateAction<CardStyleType>>;
@@ -19,11 +22,17 @@ type SettingsProps = {
     setRetreatEnergy: React.Dispatch<React.SetStateAction<EnergyType>>;
     setAbility: React.Dispatch<React.SetStateAction<AbilityType>>;
     setAttack: React.Dispatch<React.SetStateAction<AttackType>>;
+    setCrop: React.Dispatch<React.SetStateAction<CropperType>>;
+    setZoom: React.Dispatch<React.SetStateAction<number>>;
+    setCroppedAreaPixels: React.Dispatch<React.SetStateAction<CroppedAreaPixelsType | null>>;
     weaknessEnergy: EnergyType;
     resistanceEnergy: EnergyType;
     retreatEnergy: EnergyType;
     ability: AbilityType;
     attack: AttackType;
+    crop: CropperType;
+    zoom: number;
+    croppedAreaPixels: CroppedAreaPixelsType | null;
 };
 
 const Settings: React.FC<SettingsProps> = ({
@@ -35,12 +44,21 @@ const Settings: React.FC<SettingsProps> = ({
     setRetreatEnergy,
     setAbility,
     setAttack,
+    setCrop,
+    setZoom,
+    setCroppedAreaPixels,
     weaknessEnergy,
     resistanceEnergy,
     retreatEnergy,
     ability,
-    attack
+    attack,
+    crop,
+    zoom,
+    croppedAreaPixels
 }) => {
+    const handleCropComplete = React.useCallback((_area: any, pixels: any) => {
+        setCroppedAreaPixels(pixels);
+    }, []);
     return (
         <div className="flex flex-col items-center justify-center flex-wrap wrap-normal gap-8 w-[500px] py-10 bg-white rounded-lg border-1 border-gray-200 px-14">
             <div className="flex flex-col flex-wrap gap-8 ">
@@ -303,7 +321,7 @@ const Settings: React.FC<SettingsProps> = ({
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col flex-wrap gap-8 ">
+                <div className="flex flex-col flex-wrap gap-8">
                     <h2 className="text-2xl font-bold text-black">Attack</h2>
                     <div className="flex flex-col gap-2">
                         <h3 className="text-headingMd text-gray-700">Retreat</h3>
@@ -395,6 +413,32 @@ const Settings: React.FC<SettingsProps> = ({
                             />
                         </div>
                     </div>
+                </div>
+            </div>
+            <div className="flex flex-col justify-center gap-4">
+                <h2 className="text-2xl font-bold text-black">Image</h2>
+                <div className="relative w-[420px] h-[280px] rounded-md overflow-hidden border border-gray-200">
+                    <Cropper
+                        image={`/images/picture/us.png`}
+                        crop={crop}
+                        zoom={zoom}
+                        aspect={4 / 3}
+                        onCropChange={setCrop}
+                        onZoomChange={setZoom}
+                        onCropComplete={handleCropComplete}
+                    />
+                </div>
+                <div>
+                    <label className="text-sm text-gray-600">Zoom</label>
+                    <input
+                        type="range"
+                        min={1}
+                        max={5}
+                        step={0.5}
+                        value={zoom}
+                        onChange={e => setZoom(Number(e.target.value))}
+                        className="w-[420px]"
+                    />
                 </div>
             </div>
         </div>

@@ -5,6 +5,8 @@ import type { AbilityType } from '../../types/AbilityType';
 import type { AttackType } from '../../types/AttackType';
 import type { CropperType } from '../../types/CropperType';
 import Cropper from 'react-easy-crop';
+import type { CroppedAreaPixelsType } from '../../types/CroppedAreaPixelsType';
+import { CroppedImage } from './CroppedImage';
 
 type CardProps = {
     cardStyle: CardStyleType;
@@ -15,10 +17,7 @@ type CardProps = {
     retreatEnergy: EnergyType;
     ability: AbilityType;
     attack: AttackType;
-    crop: CropperType;
-    zoom: number;
-    setCrop: React.Dispatch<React.SetStateAction<CropperType>>;
-    setZoom: React.Dispatch<React.SetStateAction<number>>;
+    croppedAreaPixels: CroppedAreaPixelsType | null;
 };
 
 const Poke: React.FC<CardProps> = ({
@@ -30,14 +29,24 @@ const Poke: React.FC<CardProps> = ({
     retreatEnergy,
     ability,
     attack,
-    crop,
-    zoom,
-    setCrop,
-    setZoom
+    croppedAreaPixels
 }) => {
-    const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
-        console.log(croppedArea, croppedAreaPixels);
-    };
+    const [previewUrl, setPreviewUrl] = React.useState<string>('/images/picture/general-img-landscape.png');
+
+    React.useEffect(() => {
+        let cancel = false;
+        (async () => {
+            if (!croppedAreaPixels) {
+                setPreviewUrl('/images/picture/general-img-landscape.png');
+                return;
+            }
+            const url = await CroppedImage('/images/picture/us.png', croppedAreaPixels);
+            if (!cancel) setPreviewUrl(url);
+        })();
+        return () => {
+            cancel = true;
+        };
+    }, [croppedAreaPixels]);
 
     return (
         <div className="flex flex-col items-center w-[600px] sticky smd:static top-10 align-self">
@@ -49,16 +58,8 @@ const Poke: React.FC<CardProps> = ({
             <div className="flex flex-row absolute top-7 left-28 z-2">
                 <span className="pokemon-title text-4xl">Matthew & Lisa</span>
             </div>
-            <div className="absolute bottom-36 z-0 w-full h-full">
-                <Cropper
-                    image={`/images/picture/us.png`}
-                    crop={crop}
-                    zoom={zoom}
-                    aspect={4 / 3}
-                    onCropChange={setCrop}
-                    onCropComplete={onCropComplete}
-                    onZoomChange={setZoom}
-                />
+            <div className="flex flex-col absolute rounded-4xl">
+                <img src={previewUrl} alt="cropped" className="block rounded-lg overflow-hidden" />
             </div>
             <div className="flex flex-row gap-2 items-end absolute bottom-23.5 left-23 z-2">
                 <img src={`/images/energy/${weaknessEnergy.type}.png`} alt="weakness-energy" className="w-5 h-5" />
