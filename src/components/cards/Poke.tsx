@@ -3,8 +3,6 @@ import type { CardStyleType } from '../../types/CardStyleType';
 import type { EnergyType } from '../../types/EnergyType';
 import type { AbilityType } from '../../types/AbilityType';
 import type { AttackType } from '../../types/AttackType';
-import type { CropperType } from '../../types/CropperType';
-import Cropper from 'react-easy-crop';
 import type { CroppedAreaPixelsType } from '../../types/CroppedAreaPixelsType';
 import { CroppedImage } from './CroppedImage';
 
@@ -12,6 +10,9 @@ type CardProps = {
     cardStyle: CardStyleType;
     cardType: string;
     evolution: string;
+    title: string;
+    health: string;
+    showHP: boolean;
     weaknessEnergy: EnergyType;
     resistanceEnergy: EnergyType;
     retreatEnergy: EnergyType;
@@ -24,6 +25,9 @@ const Poke: React.FC<CardProps> = ({
     cardStyle,
     cardType,
     evolution,
+    title,
+    health,
+    showHP,
     weaknessEnergy,
     resistanceEnergy,
     retreatEnergy,
@@ -56,8 +60,15 @@ const Poke: React.FC<CardProps> = ({
                 className="z-1"
             />
             <div className="flex flex-row absolute top-7 left-28 z-2">
-                <span className="pokemon-title text-4xl">Matthew & Lisa</span>
+                <span className="pokemon-title text-heading4Xl">{title}</span>
             </div>
+            {health ? (
+                <div className="flex flex-row items-baseline gap-2 absolute top-9 right-20 z-2 max-[50px]">
+                    {showHP ? <span className="pokemon-title text-headingMd">HP</span> : null}
+                    <span className="pokemon-title text-heading2Xl">{health}</span>
+                </div>
+            ) : null}
+
             <div className="absolute top-18 rounded-4xl">
                 <img src={previewUrl} alt="cropped" className="overflow-hidden max-h-[380px]" />
             </div>

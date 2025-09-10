@@ -6,11 +6,12 @@ import type { EnergyType } from '../types/EnergyType';
 import type { AbilityType } from '../types/AbilityType';
 import type { AttackType } from '../types/AttackType';
 import type { CropperType } from '../types/CropperType';
-import Cropper from 'react-easy-crop';
 import type { CroppedAreaPixelsType } from '../types/CroppedAreaPixelsType';
 
 const Home: React.FC = () => {
-    // State Variables
+    /* State Variables */
+
+    // General Section
     const [cardStyle, setCardStyle] = useState<CardStyleType>({
         name: 'Sun and Moon',
         style: 'regular',
@@ -18,6 +19,11 @@ const Home: React.FC = () => {
     });
     const [cardType, setCardType] = useState<string>('colorless');
     const [evolution, setEvolution] = useState<string>('basic');
+    const [title, setTitle] = useState<string>('');
+    const [health, setHealth] = useState<string>('');
+    const [showHP, setShowHP] = useState<boolean>(true);
+
+    // Energy Styles Section
     const [weaknessEnergy, setWeaknessEnergy] = useState<EnergyType>({
         type: 'colorless',
         total: 0
@@ -30,10 +36,14 @@ const Home: React.FC = () => {
         type: 'colorless',
         total: 0
     });
+
+    // Ability Section
     const [ability, setAbility] = useState<AbilityType>({
         name: 'Ability-name',
         description: 'Ability-description'
     });
+
+    // Attack Section
     const [attack, setAttack] = useState<AttackType>({
         name: 'Attack-name',
         description: 'Attack-description',
@@ -56,6 +66,9 @@ const Home: React.FC = () => {
                     cardStyle={cardStyle}
                     cardType={cardType}
                     evolution={evolution}
+                    title={title}
+                    health={health}
+                    showHP={showHP}
                     weaknessEnergy={weaknessEnergy}
                     resistanceEnergy={resistanceEnergy}
                     retreatEnergy={retreatEnergy}
@@ -67,6 +80,9 @@ const Home: React.FC = () => {
                     setCardStyle={setCardStyle}
                     setCardType={setCardType}
                     setEvolution={setEvolution}
+                    setTitle={setTitle}
+                    setHealth={setHealth}
+                    setShowHP={setShowHP}
                     setWeaknessEnergy={setWeaknessEnergy}
                     setResistanceEnergy={setResistanceEnergy}
                     setRetreatEnergy={setRetreatEnergy}
@@ -75,6 +91,7 @@ const Home: React.FC = () => {
                     setCrop={setCrop}
                     setZoom={setZoom}
                     setCroppedAreaPixels={setCroppedAreaPixels}
+                    showHP={showHP}
                     weaknessEnergy={weaknessEnergy}
                     resistanceEnergy={resistanceEnergy}
                     retreatEnergy={retreatEnergy}
@@ -82,7 +99,6 @@ const Home: React.FC = () => {
                     attack={attack}
                     crop={crop}
                     zoom={zoom}
-                    croppedAreaPixels={croppedAreaPixels}
                 />
             </div>
         </div>
