@@ -35,16 +35,16 @@ const Poke: React.FC<CardProps> = ({
     attack,
     croppedAreaPixels
 }) => {
-    const [previewUrl, setPreviewUrl] = React.useState<string>('/images/picture/general-img-landscape.png');
+    const [previewUrl, setPreviewUrl] = React.useState<string>('/images/output/general-img-landscape.png');
 
     React.useEffect(() => {
         let cancel = false;
         (async () => {
             if (!croppedAreaPixels) {
-                setPreviewUrl('/images/picture/general-img-landscape.png');
+                setPreviewUrl('/images/output/general-img-landscape.png');
                 return;
             }
-            const url = await CroppedImage('/images/picture/us.png', croppedAreaPixels);
+            const url = await CroppedImage('/images/output/output_image.png', croppedAreaPixels);
             if (!cancel) setPreviewUrl(url);
         })();
         return () => {

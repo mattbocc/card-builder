@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { CardStyles } from './data/CardStyles.ts';
@@ -65,6 +65,10 @@ const Settings: React.FC<SettingsProps> = ({
     const handleCropComplete = React.useCallback((_area: any, pixels: any) => {
         setCroppedAreaPixels(pixels);
     }, []);
+    const [imageString, setImageString] = useState<string>('');
+    React.useEffect(() => {
+        console.log(imageString);
+    }, [imageString]);
     return (
         <div className="flex flex-col items-center justify-center flex-wrap wrap-normal gap-8 w-[500px] py-10 bg-white rounded-lg border-1 border-gray-200 px-14">
             <div className="flex flex-col flex-wrap gap-8 ">
@@ -462,7 +466,7 @@ const Settings: React.FC<SettingsProps> = ({
                 <h2 className="text-2xl font-bold text-black">Image</h2>
                 <div className="relative w-[420px] h-[280px] rounded-md overflow-hidden border border-gray-200">
                     <Cropper
-                        image={`/images/picture/us.png`}
+                        image={`/images/output/output_image.png`}
                         crop={crop}
                         zoom={zoom}
                         aspect={4 / 3}
@@ -483,6 +487,28 @@ const Settings: React.FC<SettingsProps> = ({
                         className="w-[420px]"
                     />
                 </div>
+            </div>
+            <div className="flex flex-col w-full gap-6 items-start">
+                <div>
+                    <label
+                        className="border-1 border-gray-300 w-20 px-3 py-2 rounded-xl hover:cursor-pointer "
+                        htmlFor="img"
+                    >
+                        {imageString ? imageString : 'Select a jpeg'}
+                    </label>
+                    <input
+                        type="file"
+                        className="hidden"
+                        accept=".jpeg"
+                        value={imageString}
+                        onChange={e => setImageString(e.target.value)}
+                        id="img"
+                    />
+                </div>
+
+                <button className="flex flex-col px-2 py-2 rounded-xl font-bold text-headingMd text-white bg-blue-700 hover:cursor-pointer ">
+                    Generate AI Image
+                </button>
             </div>
         </div>
     );
