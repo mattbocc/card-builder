@@ -70,6 +70,8 @@ const Settings: React.FC<SettingsProps> = ({
     const [file, setFile] = useState<File | null>(null);
     const [inputFileNames, setInputFileNames] = useState<string[]>(['']);
     const [outputFileNames, setOutputFileNames] = useState<string[]>(['']);
+    const [imageToGenerate, setImageToGenerate] = useState<string>('');
+    const [aiImage, setAiImage] = useState<string>('');
 
     async function generateImage() {}
 
@@ -527,13 +529,14 @@ const Settings: React.FC<SettingsProps> = ({
                 </div>
             </div>
             <div className="flex flex-col w-full gap-6 items-start">
-                <div className="flex justify-between w-full">
+                <div className="flex gap-4 w-full">
                     <div className="flex">
                         <label
-                            className="flex items-center text-bodyXs text-gray-600 border-1 border-gray-300 w-36 px-3 py-1 rounded-xl hover:cursor-pointer overflow-hidden "
+                            className="flex items-center text-center justify-center gap-2 text-sm font-semibold text-gray-900 border-1 border-gray-200 w-[175px] px-3 py-2 rounded-md hover:cursor-pointer overflow-hidden "
                             htmlFor="img"
                         >
                             {file ? file.name : 'Select a jpeg'}
+                            <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-800" />
                         </label>
                         <input
                             type="file"
@@ -548,7 +551,7 @@ const Settings: React.FC<SettingsProps> = ({
                         />
                     </div>
                     <button
-                        className="flex flex-col px-2 py-2 justify-center items-center rounded-xl font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer"
+                        className="flex flex-col px-3 py-1 rounded-md justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer"
                         onClick={() => submitImage()}
                     >
                         Upload Image
@@ -556,8 +559,66 @@ const Settings: React.FC<SettingsProps> = ({
                 </div>
 
                 <div className="flex gap-4">
+                    <Menu as="div" className="relative inline-block w-[175px]">
+                        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                            {imageToGenerate ? imageToGenerate : 'Select an image'}
+                            <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
+                        </MenuButton>
+
+                        <MenuItems
+                            transition
+                            className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                        >
+                            <ScrollPanel style={{ width: '100%', height: '150px' }}>
+                                {inputFileNames.map(name => (
+                                    <MenuItem key={name}>
+                                        <button
+                                            onClick={() => setImageToGenerate(name)}
+                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                            key={name}
+                                        >
+                                            {name}
+                                        </button>
+                                    </MenuItem>
+                                ))}
+                            </ScrollPanel>
+                        </MenuItems>
+                    </Menu>
                     <button
-                        className="flex flex-col px-2 py-2 justify-center items-center rounded-xl font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer"
+                        className="flex flex-col px-3 py-1 rounded-md justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer"
+                        onClick={() => generateImage()}
+                    >
+                        Generate AI Image
+                    </button>
+                </div>
+                <div className="flex gap-4">
+                    <Menu as="div" className="relative inline-block w-[175px]">
+                        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                            {aiImage ? aiImage : 'Select an image'}
+                            <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
+                        </MenuButton>
+
+                        <MenuItems
+                            transition
+                            className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                        >
+                            <ScrollPanel style={{ width: '100%', height: '150px' }}>
+                                {outputFileNames.map(name => (
+                                    <MenuItem key={name}>
+                                        <button
+                                            onClick={() => setAiImage(name)}
+                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                            key={name}
+                                        >
+                                            {name}
+                                        </button>
+                                    </MenuItem>
+                                ))}
+                            </ScrollPanel>
+                        </MenuItems>
+                    </Menu>
+                    <button
+                        className="flex flex-col px-3 py-1 rounded-md justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer"
                         onClick={() => generateImage()}
                     >
                         Generate AI Image
