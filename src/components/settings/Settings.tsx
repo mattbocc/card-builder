@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { CardStyles } from './data/CardStyles.ts';
@@ -12,6 +12,7 @@ import type { AttackType } from '../../types/AttackType.ts';
 import type { CropperType } from '../../types/CropperType';
 import type { CroppedAreaPixelsType } from '../../types/CroppedAreaPixelsType.ts';
 import Cropper from 'react-easy-crop';
+import axios from 'axios';
 
 type SettingsProps = {
     setCardStyle: React.Dispatch<React.SetStateAction<CardStyleType>>;
@@ -65,10 +66,47 @@ const Settings: React.FC<SettingsProps> = ({
     const handleCropComplete = React.useCallback((_area: any, pixels: any) => {
         setCroppedAreaPixels(pixels);
     }, []);
-    const [imageString, setImageString] = useState<string>('');
-    React.useEffect(() => {
-        console.log(imageString);
-    }, [imageString]);
+
+    const [file, setFile] = useState<File | null>(null);
+    const [inputFileNames, setInputFileNames] = useState<string[]>(['']);
+    const [outputFileNames, setOutputFileNames] = useState<string[]>(['']);
+
+    async function generateImage() {}
+
+    async function submitImage() {
+        if (!file) {
+            alert('Please insert an image before submitting');
+            return;
+        }
+        const formData = new FormData();
+        formData.append('file', file, file.name);
+        try {
+            const res = await axios.post('/api/poke/image/upload', formData, {
+                headers: { 'Content-type': 'multipart/form-data' }
+            });
+            console.log(res.data.message);
+            alert(res.data.message);
+        } catch (error) {
+            console.log(error);
+            alert(error);
+        }
+    }
+
+    useEffect(() => {
+        async function getFileNames() {
+            try {
+                const res_input = await axios.get('/api/poke/image/get/inputs');
+                const res_output = await axios.get('/api/poke/image/get/outputs');
+                setInputFileNames(res_input.data);
+                setOutputFileNames(res_output.data);
+            } catch (error) {
+                console.log(error);
+                alert(error);
+            }
+        }
+        getFileNames();
+    }, []);
+
     return (
         <div className="flex flex-col items-center justify-center flex-wrap wrap-normal gap-8 w-[500px] py-10 bg-white rounded-lg border-1 border-gray-200 px-14">
             <div className="flex flex-col flex-wrap gap-8 ">
@@ -489,26 +527,42 @@ const Settings: React.FC<SettingsProps> = ({
                 </div>
             </div>
             <div className="flex flex-col w-full gap-6 items-start">
-                <div>
-                    <label
-                        className="border-1 border-gray-300 w-20 px-3 py-2 rounded-xl hover:cursor-pointer "
-                        htmlFor="img"
+                <div className="flex justify-between w-full">
+                    <div className="flex">
+                        <label
+                            className="flex items-center text-bodyXs text-gray-600 border-1 border-gray-300 w-36 px-3 py-1 rounded-xl hover:cursor-pointer overflow-hidden "
+                            htmlFor="img"
+                        >
+                            {file ? file.name : 'Select a jpeg'}
+                        </label>
+                        <input
+                            type="file"
+                            className="hidden"
+                            accept="image/jpeg"
+                            onChange={e => {
+                                const f = e.target.files?.[0] ?? null;
+                                setFile(f);
+                            }}
+                            id="img"
+                            name="file"
+                        />
+                    </div>
+                    <button
+                        className="flex flex-col px-2 py-2 justify-center items-center rounded-xl font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer"
+                        onClick={() => submitImage()}
                     >
-                        {imageString ? imageString : 'Select a jpeg'}
-                    </label>
-                    <input
-                        type="file"
-                        className="hidden"
-                        accept=".jpeg"
-                        value={imageString}
-                        onChange={e => setImageString(e.target.value)}
-                        id="img"
-                    />
+                        Upload Image
+                    </button>
                 </div>
 
-                <button className="flex flex-col px-2 py-2 rounded-xl font-bold text-headingMd text-white bg-blue-700 hover:cursor-pointer ">
-                    Generate AI Image
-                </button>
+                <div className="flex gap-4">
+                    <button
+                        className="flex flex-col px-2 py-2 justify-center items-center rounded-xl font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer"
+                        onClick={() => generateImage()}
+                    >
+                        Generate AI Image
+                    </button>
+                </div>
             </div>
         </div>
     );
