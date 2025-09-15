@@ -39,7 +39,7 @@ const Poke: React.FC<CardProps> = ({
     aiImage,
     isLandscape
 }) => {
-    const [outputImage, setOutputImage] = useState<string>('/images/output/output_image.png');
+    const [outputImage, setOutputImage] = useState<string>(`/images/output/output_image.png?t=${Date.now()}`);
     useEffect(() => {
         async function getCroppedImage() {
             if (!croppedAreaPixels) return;
