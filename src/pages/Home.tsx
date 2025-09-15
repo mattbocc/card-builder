@@ -58,6 +58,8 @@ const Home: React.FC = () => {
     });
     const [zoom, setZoom] = useState<number>(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<CroppedAreaPixelsType | null>(null);
+    const [aiImage, setAiImage] = React.useState<string>('/images/output/output_image.png');
+    const [isLandscape, setIsLandscape] = useState<boolean>(true);
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-100">
@@ -75,6 +77,8 @@ const Home: React.FC = () => {
                     ability={ability}
                     attack={attack}
                     croppedAreaPixels={croppedAreaPixels}
+                    aiImage={aiImage}
+                    isLandscape={isLandscape}
                 />
                 <Settings
                     setCardStyle={setCardStyle}
@@ -91,6 +95,8 @@ const Home: React.FC = () => {
                     setCrop={setCrop}
                     setZoom={setZoom}
                     setCroppedAreaPixels={setCroppedAreaPixels}
+                    setAiImage={setAiImage}
+                    setIsLandscape={setIsLandscape}
                     showHP={showHP}
                     weaknessEnergy={weaknessEnergy}
                     resistanceEnergy={resistanceEnergy}
@@ -99,6 +105,8 @@ const Home: React.FC = () => {
                     attack={attack}
                     crop={crop}
                     zoom={zoom}
+                    aiImage={aiImage}
+                    isLandscape={isLandscape}
                 />
             </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { CardStyles } from './data/CardStyles.ts';
@@ -29,6 +29,8 @@ type SettingsProps = {
     setCrop: React.Dispatch<React.SetStateAction<CropperType>>;
     setZoom: React.Dispatch<React.SetStateAction<number>>;
     setCroppedAreaPixels: React.Dispatch<React.SetStateAction<CroppedAreaPixelsType | null>>;
+    setAiImage: React.Dispatch<React.SetStateAction<string>>;
+    setIsLandscape: React.Dispatch<React.SetStateAction<boolean>>;
     showHP: boolean;
     weaknessEnergy: EnergyType;
     resistanceEnergy: EnergyType;
@@ -37,6 +39,8 @@ type SettingsProps = {
     attack: AttackType;
     crop: CropperType;
     zoom: number;
+    aiImage: string;
+    isLandscape: boolean;
 };
 
 const Settings: React.FC<SettingsProps> = ({
@@ -54,6 +58,8 @@ const Settings: React.FC<SettingsProps> = ({
     setCrop,
     setZoom,
     setCroppedAreaPixels,
+    setAiImage,
+    setIsLandscape,
     showHP,
     weaknessEnergy,
     resistanceEnergy,
@@ -61,7 +67,9 @@ const Settings: React.FC<SettingsProps> = ({
     ability,
     attack,
     crop,
-    zoom
+    zoom,
+    aiImage,
+    isLandscape
 }) => {
     const handleCropComplete = React.useCallback((_area: any, pixels: any) => {
         setCroppedAreaPixels(pixels);
@@ -70,10 +78,8 @@ const Settings: React.FC<SettingsProps> = ({
     const [file, setFile] = useState<File | null>(null);
     const [inputFileNames, setInputFileNames] = useState<string[]>(['']);
     const [outputFileNames, setOutputFileNames] = useState<string[]>(['']);
+    const [outputFile, setOutputFile] = useState<string>('');
     const [imageToGenerate, setImageToGenerate] = useState<string>('');
-    const [aiImage, setAiImage] = useState<string>('');
-
-    async function generateImage() {}
 
     async function submitImage() {
         if (!file) {
@@ -94,6 +100,21 @@ const Settings: React.FC<SettingsProps> = ({
         }
     }
 
+    async function generateImage() {}
+
+    async function selectImage() {
+        try {
+            const res = await axios.get(`/api/poke/image/get/static/${outputFile}`, {
+                responseType: 'blob'
+            });
+            const url = URL.createObjectURL(res.data);
+            setAiImage(url);
+            setCroppedAreaPixels(null);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         async function getFileNames() {
             try {
@@ -108,6 +129,21 @@ const Settings: React.FC<SettingsProps> = ({
         }
         getFileNames();
     }, []);
+
+    useEffect(() => {
+        async function setOrientation() {
+            if (!aiImage) return;
+            const img = new Image();
+            img.onload = () => {
+                const land = img.naturalWidth > img.naturalHeight;
+                if (land !== isLandscape) {
+                    setIsLandscape(land);
+                }
+            };
+            img.src = aiImage;
+        }
+        setOrientation();
+    }, [aiImage]);
 
     return (
         <div className="flex flex-col items-center justify-center flex-wrap wrap-normal gap-8 w-[500px] py-10 bg-white rounded-lg border-1 border-gray-200 px-14">
@@ -504,12 +540,12 @@ const Settings: React.FC<SettingsProps> = ({
             </div>
             <div className="flex flex-col justify-center gap-4">
                 <h2 className="text-2xl font-bold text-black">Image</h2>
-                <div className="relative w-[420px] h-[280px] rounded-md overflow-hidden border border-gray-200">
+                <div className={`relative w-[420px] h-[280px] rounded-md overflow-hidden border border-gray-200 `}>
                     <Cropper
-                        image={`/images/output/output_image.png`}
+                        image={aiImage}
                         crop={crop}
                         zoom={zoom}
-                        aspect={4 / 3}
+                        aspect={isLandscape ? 4 / 3 : 6 / 8}
                         onCropChange={setCrop}
                         onZoomChange={setZoom}
                         onCropComplete={handleCropComplete}
@@ -532,7 +568,7 @@ const Settings: React.FC<SettingsProps> = ({
                 <div className="flex gap-4 w-full">
                     <div className="flex">
                         <label
-                            className="flex items-center text-center justify-center gap-2 text-sm font-semibold text-gray-900 border-1 border-gray-200 w-[175px] px-3 py-2 rounded-md hover:cursor-pointer overflow-hidden "
+                            className="flex items-center text-center justify-center gap-2 text-sm font-semibold text-gray-900 border-1 border-gray-200 w-[175px] px-3 py-[7px] rounded-md hover:cursor-pointer overflow-hidden "
                             htmlFor="img"
                         >
                             {file ? file.name : 'Select a jpeg'}
@@ -551,7 +587,7 @@ const Settings: React.FC<SettingsProps> = ({
                         />
                     </div>
                     <button
-                        className="flex flex-col px-3 py-1 rounded-md justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer"
+                        className="flex flex-col px-3 py-1 rounded-md justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[160px]"
                         onClick={() => submitImage()}
                     >
                         Upload Image
@@ -585,7 +621,7 @@ const Settings: React.FC<SettingsProps> = ({
                         </MenuItems>
                     </Menu>
                     <button
-                        className="flex flex-col px-3 py-1 rounded-md justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer"
+                        className="flex flex-col px-3 py-1 rounded-md justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[160px]"
                         onClick={() => generateImage()}
                     >
                         Generate AI Image
@@ -594,7 +630,7 @@ const Settings: React.FC<SettingsProps> = ({
                 <div className="flex gap-4">
                     <Menu as="div" className="relative inline-block w-[175px]">
                         <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                            {aiImage ? aiImage : 'Select an image'}
+                            {outputFile ? outputFile : 'Select an image'}
                             <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
                         </MenuButton>
 
@@ -606,7 +642,7 @@ const Settings: React.FC<SettingsProps> = ({
                                 {outputFileNames.map(name => (
                                     <MenuItem key={name}>
                                         <button
-                                            onClick={() => setAiImage(name)}
+                                            onClick={() => setOutputFile(name)}
                                             className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
                                             key={name}
                                         >
@@ -618,10 +654,10 @@ const Settings: React.FC<SettingsProps> = ({
                         </MenuItems>
                     </Menu>
                     <button
-                        className="flex flex-col px-3 py-1 rounded-md justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer"
-                        onClick={() => generateImage()}
+                        className="flex flex-col px-3 py-1 rounded-md justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[160px]"
+                        onClick={() => selectImage()}
                     >
-                        Generate AI Image
+                        Choose Image
                     </button>
                 </div>
             </div>
