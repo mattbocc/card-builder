@@ -31,6 +31,8 @@ type SettingsProps = {
     setCroppedAreaPixels: React.Dispatch<React.SetStateAction<CroppedAreaPixelsType | null>>;
     setAiImage: React.Dispatch<React.SetStateAction<string>>;
     setIsLandscape: React.Dispatch<React.SetStateAction<boolean>>;
+    cardType: string;
+    evolution: string;
     showHP: boolean;
     weaknessEnergy: EnergyType;
     resistanceEnergy: EnergyType;
@@ -60,6 +62,8 @@ const Settings: React.FC<SettingsProps> = ({
     setCroppedAreaPixels,
     setAiImage,
     setIsLandscape,
+    cardType,
+    evolution,
     showHP,
     weaknessEnergy,
     resistanceEnergy,
@@ -100,7 +104,19 @@ const Settings: React.FC<SettingsProps> = ({
         }
     }
 
-    async function generateImage() {}
+    async function generateImage() {
+        try {
+            const res = await axios.post('/api/poke/image/create', {
+                image_name: imageToGenerate,
+                type: cardType,
+                stage: evolution,
+                portrait: isLandscape
+            });
+            console.log(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     async function selectImage() {
         try {

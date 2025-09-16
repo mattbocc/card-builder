@@ -97,6 +97,8 @@ const Home: React.FC = () => {
                     setCroppedAreaPixels={setCroppedAreaPixels}
                     setAiImage={setAiImage}
                     setIsLandscape={setIsLandscape}
+                    cardType={cardType}
+                    evolution={evolution}
                     showHP={showHP}
                     weaknessEnergy={weaknessEnergy}
                     resistanceEnergy={resistanceEnergy}
