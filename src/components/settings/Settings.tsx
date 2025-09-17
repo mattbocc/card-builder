@@ -31,6 +31,7 @@ type SettingsProps = {
     setCroppedAreaPixels: React.Dispatch<React.SetStateAction<CroppedAreaPixelsType | null>>;
     setAiImage: React.Dispatch<React.SetStateAction<string>>;
     setIsLandscape: React.Dispatch<React.SetStateAction<boolean>>;
+    cardStyle: CardStyleType;
     cardType: string;
     evolution: string;
     showHP: boolean;
@@ -62,6 +63,7 @@ const Settings: React.FC<SettingsProps> = ({
     setCroppedAreaPixels,
     setAiImage,
     setIsLandscape,
+    cardStyle,
     cardType,
     evolution,
     showHP,
@@ -166,83 +168,93 @@ const Settings: React.FC<SettingsProps> = ({
 
     return (
         <div className="flex flex-col items-center justify-center flex-wrap wrap-normal gap-8 w-[500px] py-10 bg-white rounded-lg border-1 border-gray-200 px-14">
-            <div className="flex flex-col flex-wrap gap-8 ">
+            <div className="flex flex-col flex-wrap gap-8 w-full">
                 <h2 className="text-2xl font-bold text-black">General settings</h2>
                 <div className="flex flex-col gap-4">
-                    <div className="flex flex-row justify-center flex-wrap gap-8 ">
-                        <Menu as="div" className="relative inline-block w-[175px]">
-                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                Card Style
-                                <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
-                            </MenuButton>
+                    <div className="flex flex-col flex-wrap gap-6">
+                        <div className="flex flex-col gap-2">
+                            <h3 className="text-headingMd text-gray-700">Card Style</h3>
 
-                            <MenuItems
-                                transition
-                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                            >
-                                <ScrollPanel style={{ width: '100%', height: '150px' }}>
-                                    {CardStyles.map(style => (
-                                        <MenuItem key={style.name}>
-                                            <button
-                                                onClick={() => setCardStyle(style)}
-                                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
-                                                key={style.name}
-                                            >
-                                                {style.name}
-                                            </button>
-                                        </MenuItem>
-                                    ))}
-                                </ScrollPanel>
-                            </MenuItems>
-                        </Menu>
-                        <Menu as="div" className="relative inline-block w-[175px]">
-                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                Type
-                                <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
-                            </MenuButton>
+                            <Menu as="div" className="relative inline-block w-[140px]">
+                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                                    {cardStyle?.name ? cardStyle?.name : 'Card Style'}
+                                    <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
+                                </MenuButton>
 
-                            <MenuItems
-                                transition
-                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                            >
-                                <ScrollPanel style={{ width: '100%', height: '150px' }}>
-                                    {EnergyTypes.map(type => (
-                                        <MenuItem key={type}>
-                                            <button
-                                                onClick={() => setCardType(type)}
-                                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
-                                            >
-                                                {type.charAt(0).toUpperCase() + type.slice(1)}
-                                            </button>
-                                        </MenuItem>
-                                    ))}
-                                </ScrollPanel>
-                            </MenuItems>
-                        </Menu>
-                        <Menu as="div" className="relative inline-block w-[175px]">
-                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                Evolution
-                                <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
-                            </MenuButton>
+                                <MenuItems
+                                    transition
+                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                >
+                                    <ScrollPanel style={{ width: '100%', height: '150px' }}>
+                                        {CardStyles.map(style => (
+                                            <MenuItem key={style.name}>
+                                                <button
+                                                    onClick={() => setCardStyle(style)}
+                                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                                    key={style.name}
+                                                >
+                                                    {style.name}
+                                                </button>
+                                            </MenuItem>
+                                        ))}
+                                    </ScrollPanel>
+                                </MenuItems>
+                            </Menu>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <h3 className="text-headingMd text-gray-700">Card Energy</h3>
+                            <Menu as="div" className="relative inline-block w-[175px]">
+                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                                    {cardType ? cardType[0].toUpperCase() + cardType.slice(1) : 'Type'}
+                                    <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
+                                </MenuButton>
 
-                            <MenuItems
-                                transition
-                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                            >
-                                <ScrollPanel style={{ width: '100%', height: '150px' }}>
-                                    {CardEvolution.map(evolution => (
-                                        <MenuItem key={evolution}>
-                                            <button
-                                                onClick={() => setEvolution(evolution.replaceAll(' ', ''))}
-                                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
-                                            >
-                                                {evolution.charAt(0).toUpperCase() + evolution.slice(1)}
-                                            </button>
-                                        </MenuItem>
-                                    ))}
-                                </ScrollPanel>
-                            </MenuItems>
-                        </Menu>
+                                <MenuItems
+                                    transition
+                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                >
+                                    <ScrollPanel style={{ width: '100%', height: '150px' }}>
+                                        {EnergyTypes.map(type => (
+                                            <MenuItem key={type}>
+                                                <button
+                                                    onClick={() => setCardType(type)}
+                                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                                >
+                                                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                                                </button>
+                                            </MenuItem>
+                                        ))}
+                                    </ScrollPanel>
+                                </MenuItems>
+                            </Menu>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <h3 className="text-headingMd text-gray-700">Card Stage</h3>
+                            <Menu as="div" className="relative inline-block w-[175px]">
+                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                                    {evolution ? evolution[0].toUpperCase() + evolution.slice(1) : 'Evolution'}
+                                    <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
+                                </MenuButton>
+
+                                <MenuItems
+                                    transition
+                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                >
+                                    <ScrollPanel style={{ width: '100%', height: '150px' }}>
+                                        {CardEvolution.map(evolution => (
+                                            <MenuItem key={evolution}>
+                                                <button
+                                                    onClick={() => setEvolution(evolution)}
+                                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                                >
+                                                    {evolution.charAt(0).toUpperCase() + evolution.slice(1)}
+                                                </button>
+                                            </MenuItem>
+                                        ))}
+                                    </ScrollPanel>
+                                </MenuItems>
+                            </Menu>
+                        </div>
                     </div>
 
                     <div className="flex flex-col gap-2">
@@ -290,7 +302,9 @@ const Settings: React.FC<SettingsProps> = ({
                     <div className="flex flex-row justify-center flex-wrap gap-8 ">
                         <Menu as="div" className="relative inline-block w-[125px]">
                             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                Type
+                                {weaknessEnergy?.type
+                                    ? weaknessEnergy.type[0].toUpperCase() + weaknessEnergy.type.slice(1)
+                                    : 'Type'}
                                 <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
                             </MenuButton>
 
@@ -337,7 +351,9 @@ const Settings: React.FC<SettingsProps> = ({
                     <div className="flex flex-row justify-center flex-wrap gap-8 ">
                         <Menu as="div" className="relative inline-block w-[125px]">
                             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                Type
+                                {resistanceEnergy?.type
+                                    ? resistanceEnergy.type[0].toUpperCase() + resistanceEnergy.type.slice(1)
+                                    : 'Type'}
                                 <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
                             </MenuButton>
 
@@ -384,7 +400,9 @@ const Settings: React.FC<SettingsProps> = ({
                     <div className="flex flex-row justify-center flex-wrap gap-8 ">
                         <Menu as="div" className="relative inline-block w-[125px]">
                             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                Type
+                                {retreatEnergy?.type
+                                    ? retreatEnergy.type[0].toUpperCase() + retreatEnergy.type.slice(1)
+                                    : 'Type'}
                                 <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
                             </MenuButton>
 
@@ -470,7 +488,10 @@ const Settings: React.FC<SettingsProps> = ({
                         <div className="flex flex-row justify-center flex-wrap gap-8 ">
                             <Menu as="div" className="relative inline-block w-[125px]">
                                 <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                    Type
+                                    {attack?.attackEnergy?.type
+                                        ? attack?.attackEnergy?.type[0].toUpperCase() +
+                                          attack?.attackEnergy?.type.slice(1)
+                                        : 'Type'}
                                     <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
                                 </MenuButton>
 

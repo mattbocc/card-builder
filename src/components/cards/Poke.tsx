@@ -52,7 +52,7 @@ const Poke: React.FC<CardProps> = ({
     return (
         <div className="flex flex-col items-center w-[600px] sticky smd:static top-10 align-self">
             <img
-                src={`/images/${cardStyle.version}/${cardStyle.style}/${cardType}_${evolution}.png`}
+                src={`/images/${cardStyle.version}/${cardStyle.style}/${cardType}_${evolution.replaceAll(' ', '')}.png`}
                 alt="card-holder"
                 className="z-1"
             />
