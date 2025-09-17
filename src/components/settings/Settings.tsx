@@ -84,6 +84,8 @@ const Settings: React.FC<SettingsProps> = ({
     const [outputFileNames, setOutputFileNames] = useState<string[]>(['']);
     const [outputFile, setOutputFile] = useState<string>('');
     const [imageToGenerate, setImageToGenerate] = useState<string>('');
+    const [specialEvent, setSpecialEvent] = useState<string>('halloween');
+    const [prompt, setPrompt] = useState<string>('');
 
     async function submitImage() {
         if (!file) {
@@ -110,7 +112,8 @@ const Settings: React.FC<SettingsProps> = ({
                 image_name: imageToGenerate,
                 type: cardType,
                 stage: evolution,
-                portrait: isLandscape
+                portrait: !isLandscape,
+                special_event: specialEvent
             });
             console.log(res.data);
         } catch (error) {
