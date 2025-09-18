@@ -86,7 +86,7 @@ const Settings: React.FC<SettingsProps> = ({
     const [outputFileNames, setOutputFileNames] = useState<string[]>(['']);
     const [outputFile, setOutputFile] = useState<string>('');
     const [imageToGenerate, setImageToGenerate] = useState<string>('');
-    const [specialEvent, setSpecialEvent] = useState<string>('halloween');
+    const [specialEvent, setSpecialEvent] = useState<string>('');
     const [prompt, setPrompt] = useState<string>('');
 
     async function submitImage() {
@@ -115,7 +115,7 @@ const Settings: React.FC<SettingsProps> = ({
                 type: cardType,
                 stage: evolution,
                 portrait: !isLandscape,
-                special_event: specialEvent
+                special_event: specialEvent ? specialEvent : null
             });
             console.log(res.data);
         } catch (error) {
@@ -719,6 +719,49 @@ const Settings: React.FC<SettingsProps> = ({
                         onClick={() => selectImage()}
                     >
                         Choose Image
+                    </button>
+                </div>
+                <div className="flex gap-4 flex-wrap">
+                    <button
+                        className={`flex justify-center items-center gap-4 rounded-lg px-2 py-2 text-white bg-orange-900 font-semibold text-headingMd hover:cursor-pointer w-36 ${
+                            specialEvent === 'halloween' ? 'shadow-lg shadow-orange-500/70' : ''
+                        }`}
+                        onClick={() => {
+                            if (specialEvent !== 'halloween') {
+                                setSpecialEvent('halloween');
+                            } else {
+                                setSpecialEvent('');
+                            }
+                        }}
+                    >
+                        <img src="/images/general/jackolantern.svg" className="w-6" />
+                        Halloween
+                    </button>
+                    <button
+                        className={`flex justify-center items-center gap-2 rounded-lg px-2 py-2 text-white bg-red-900 font-semibold text-headingMd hover:cursor-not-allowed w-36`}
+                        // onClick={() => {
+                        //     if (specialEvent !== 'christmas') {
+                        //         setSpecialEvent('christmas');
+                        //     } else {
+                        //         setSpecialEvent('');
+                        //     }
+                        // }}
+                    >
+                        <img src="/images/general/santa-hat.svg" className="w-6" />
+                        Christmas
+                    </button>
+                    <button
+                        className={`flex justify-center items-center gap-2 rounded-lg px-2 py-2 text-white bg-pink-900 font-semibold text-headingMd hover:cursor-not-allowed w-36`}
+                        // onClick={() => {
+                        //     if (specialEvent !== 'valentines') {
+                        //         setSpecialEvent('valentines');
+                        //     } else {
+                        //         setSpecialEvent('');
+                        //     }
+                        // }}
+                    >
+                        <img src="/images/general/love-letter.svg" className="w-6" />
+                        Valentines
                     </button>
                 </div>
             </div>
