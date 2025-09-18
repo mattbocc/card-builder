@@ -445,9 +445,9 @@ const Settings: React.FC<SettingsProps> = ({
                 </div>
                 <div className="flex flex-col flex-wrap gap-8 ">
                     <h2 className="text-2xl font-bold text-black">Ability</h2>
-
                     <div className="flex flex-col gap-2">
                         <h3 className="text-headingMd text-gray-700">Name</h3>
+
                         <div className="flex flex-row justify-center flex-wrap gap-8 ">
                             <input
                                 className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200 w-full"
@@ -482,7 +482,24 @@ const Settings: React.FC<SettingsProps> = ({
                     </div>
                 </div>
                 <div className="flex flex-col flex-wrap gap-8">
-                    <h2 className="text-2xl font-bold text-black">Attack</h2>
+                    <div className="flex gap-2 w-full items-baseline">
+                        <h2 className="text-2xl font-bold text-black">Attack</h2>
+                        <input
+                            type="checkbox"
+                            checked={attack.show}
+                            onChange={() =>
+                                setAttack({
+                                    name: attack.name,
+                                    description: attack.description,
+                                    attackEnergy: {
+                                        type: attack.attackEnergy.type,
+                                        total: attack.attackEnergy.total
+                                    },
+                                    show: !attack.show
+                                })
+                            }
+                        />
+                    </div>
                     <div className="flex flex-col gap-2">
                         <h3 className="text-headingMd text-gray-700">Retreat</h3>
                         <div className="flex flex-row justify-center flex-wrap gap-8 ">
@@ -510,7 +527,8 @@ const Settings: React.FC<SettingsProps> = ({
                                                             attackEnergy: {
                                                                 type: type,
                                                                 total: attack.attackEnergy.total
-                                                            }
+                                                            },
+                                                            show: attack.show
                                                         })
                                                     }
                                                     className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
@@ -534,7 +552,8 @@ const Settings: React.FC<SettingsProps> = ({
                                         attackEnergy: {
                                             type: attack.attackEnergy.type,
                                             total: Number(e.target.value)
-                                        }
+                                        },
+                                        show: attack.show
                                     });
                                 }}
                             />
@@ -552,7 +571,8 @@ const Settings: React.FC<SettingsProps> = ({
                                     setAttack({
                                         name: e.target.value,
                                         description: attack.description,
-                                        attackEnergy: attack.attackEnergy
+                                        attackEnergy: attack.attackEnergy,
+                                        show: attack.show
                                     });
                                 }}
                             />
@@ -570,7 +590,8 @@ const Settings: React.FC<SettingsProps> = ({
                                     setAttack({
                                         name: attack.name,
                                         description: e.target.value,
-                                        attackEnergy: attack.attackEnergy
+                                        attackEnergy: attack.attackEnergy,
+                                        show: attack.show
                                     });
                                 }}
                             />

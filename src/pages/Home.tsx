@@ -50,7 +50,8 @@ const Home: React.FC = () => {
         attackEnergy: {
             type: 'colorless',
             total: 0
-        }
+        },
+        show: false
     });
     const [crop, setCrop] = useState<CropperType>({
         x: 0,

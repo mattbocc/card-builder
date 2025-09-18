@@ -98,9 +98,13 @@ const Poke: React.FC<CardProps> = ({
                 ) : null}
             </div>
 
-            <div className="flex flex-col gap-6 absolute bottom-74 z-4 px-12 w-full">
-                <div className="flex flex-row gap-8">
-                    <img src="/images/sun_moon/ability.png" />
+            <div
+                className={`flex flex-col gap-6 absolute z-4 px-12 w-full ${
+                    attack.show ? 'bottom-74' : 'bottom-52'
+                } h-28`}
+            >
+                <div className="flex flex-row gap-8 items-start">
+                    <img src="/images/sun_moon/power.png" className="min-w-44" />
                     <h3 className={`text-headingXl text-red-800 font-bold ${isLandscape ? '' : 'outline-white'}`}>
                         {ability.name}
                     </h3>
@@ -110,16 +114,20 @@ const Poke: React.FC<CardProps> = ({
                 </h4>
             </div>
 
-            <div className="flex flex-col gap-4 absolute bottom-52 z-4 px-12 w-full">
-                <div className="flex flex-row justify-between items-end w-full">
-                    <img src={`/images/energy/${attack.attackEnergy.type}.png`} className="w-6 h-6" />
-                    <h2 className={`text-headingXl font-bold ${isLandscape ? '' : 'outline-white'}`}>{attack.name}</h2>
-                    <h3 className="text-headingXl font-bold">{attack.attackEnergy.total}</h3>
+            {attack.show ? (
+                <div className="flex flex-col gap-4 absolute bottom-52 z-4 px-12 w-full h-40">
+                    <div className="flex flex-row justify-between items-end w-full">
+                        <img src={`/images/energy/${attack.attackEnergy.type}.png`} className="w-6 h-6" />
+                        <h2 className={`text-headingXl font-bold ${isLandscape ? '' : 'outline-white'}`}>
+                            {attack.name}
+                        </h2>
+                        <h3 className="text-headingXl font-bold">{attack.attackEnergy.total}</h3>
+                    </div>
+                    <h4 className={`text-headingMd font-semibold ${isLandscape ? '' : 'outline-black text-white'}`}>
+                        {attack.description}
+                    </h4>
                 </div>
-                <h4 className={`text-headingMd font-semibold ${isLandscape ? '' : 'outline-black text-white'}`}>
-                    {attack.description}
-                </h4>
-            </div>
+            ) : null}
         </div>
     );
 };
