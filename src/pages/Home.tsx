@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Settings from '../components/settings/Settings';
 import Poke from '../components/cards/Poke';
 import type { CardStyleType } from '../types/CardStyleType';
@@ -60,7 +60,10 @@ const Home: React.FC = () => {
     const [zoom, setZoom] = useState<number>(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<CroppedAreaPixelsType | null>(null);
     const [aiImage, setAiImage] = React.useState<string>('/images/output/output_image.png');
-    const [isLandscape, setIsLandscape] = useState<boolean>(true);
+    const [isPortrait, setIsPortrait] = useState<boolean>(false);
+
+    // Pokemon Card export
+    const exportRef = useRef<HTMLDivElement>(null);
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-100">
@@ -79,7 +82,8 @@ const Home: React.FC = () => {
                     attack={attack}
                     croppedAreaPixels={croppedAreaPixels}
                     aiImage={aiImage}
-                    isLandscape={isLandscape}
+                    isPortrait={isPortrait}
+                    exportRef={exportRef}
                 />
                 <Settings
                     setCardStyle={setCardStyle}
@@ -97,7 +101,7 @@ const Home: React.FC = () => {
                     setZoom={setZoom}
                     setCroppedAreaPixels={setCroppedAreaPixels}
                     setAiImage={setAiImage}
-                    setIsLandscape={setIsLandscape}
+                    setIsPortrait={setIsPortrait}
                     cardStyle={cardStyle}
                     cardType={cardType}
                     evolution={evolution}
@@ -110,7 +114,8 @@ const Home: React.FC = () => {
                     crop={crop}
                     zoom={zoom}
                     aiImage={aiImage}
-                    isLandscape={isLandscape}
+                    isPortrait={isPortrait}
+                    exportRef={exportRef}
                 />
             </div>
         </div>

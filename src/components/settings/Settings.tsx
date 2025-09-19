@@ -13,6 +13,7 @@ import type { CropperType } from '../../types/CropperType';
 import type { CroppedAreaPixelsType } from '../../types/CroppedAreaPixelsType.ts';
 import Cropper from 'react-easy-crop';
 import axios from 'axios';
+import ExportCard from '../cards/ExportCard.tsx';
 
 type SettingsProps = {
     setCardStyle: React.Dispatch<React.SetStateAction<CardStyleType>>;
@@ -30,7 +31,7 @@ type SettingsProps = {
     setZoom: React.Dispatch<React.SetStateAction<number>>;
     setCroppedAreaPixels: React.Dispatch<React.SetStateAction<CroppedAreaPixelsType | null>>;
     setAiImage: React.Dispatch<React.SetStateAction<string>>;
-    setIsLandscape: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsPortrait: React.Dispatch<React.SetStateAction<boolean>>;
     cardStyle: CardStyleType;
     cardType: string;
     evolution: string;
@@ -43,7 +44,8 @@ type SettingsProps = {
     crop: CropperType;
     zoom: number;
     aiImage: string;
-    isLandscape: boolean;
+    isPortrait: boolean;
+    exportRef: React.RefObject<HTMLDivElement | null>;
 };
 
 const Settings: React.FC<SettingsProps> = ({
@@ -62,7 +64,7 @@ const Settings: React.FC<SettingsProps> = ({
     setZoom,
     setCroppedAreaPixels,
     setAiImage,
-    setIsLandscape,
+    setIsPortrait,
     cardStyle,
     cardType,
     evolution,
@@ -75,7 +77,8 @@ const Settings: React.FC<SettingsProps> = ({
     crop,
     zoom,
     aiImage,
-    isLandscape
+    isPortrait,
+    exportRef
 }) => {
     const handleCropComplete = React.useCallback((_area: any, pixels: any) => {
         setCroppedAreaPixels(pixels);
@@ -86,6 +89,7 @@ const Settings: React.FC<SettingsProps> = ({
     const [outputFileNames, setOutputFileNames] = useState<string[]>(['']);
     const [outputFile, setOutputFile] = useState<string>('');
     const [imageToGenerate, setImageToGenerate] = useState<string>('');
+    // select portrait
     const [specialEvent, setSpecialEvent] = useState<string>('');
     const [prompt, setPrompt] = useState<string>('');
 
@@ -114,7 +118,7 @@ const Settings: React.FC<SettingsProps> = ({
                 image_name: imageToGenerate,
                 type: cardType,
                 stage: evolution,
-                portrait: !isLandscape,
+                portrait: isPortrait,
                 special_event: specialEvent ? specialEvent : null
             });
             console.log(res.data);
@@ -125,10 +129,12 @@ const Settings: React.FC<SettingsProps> = ({
 
     async function selectImage() {
         try {
-            const res = await axios.get(`/api/poke/image/get/static/${outputFile}`, {
+            const res = await axios.get(`/api/poke/image/get/static/${outputFile}?t=${Date.now()}`, {
                 responseType: 'blob'
             });
+            console.log(res.data);
             const url = URL.createObjectURL(res.data);
+            console.log(url);
             setAiImage(url);
             setCroppedAreaPixels(null);
         } catch (error) {
@@ -156,9 +162,9 @@ const Settings: React.FC<SettingsProps> = ({
             if (!aiImage) return;
             const img = new Image();
             img.onload = () => {
-                const land = img.naturalWidth > img.naturalHeight;
-                if (land !== isLandscape) {
-                    setIsLandscape(land);
+                const port = img.naturalWidth < img.naturalHeight;
+                if (port !== isPortrait) {
+                    setIsPortrait(port);
                 }
             };
             img.src = aiImage;
@@ -606,7 +612,7 @@ const Settings: React.FC<SettingsProps> = ({
                         image={aiImage}
                         crop={crop}
                         zoom={zoom}
-                        aspect={isLandscape ? 4 / 3 : 8 / 10}
+                        aspect={isPortrait ? 8 / 10 : 4 / 3}
                         onCropChange={setCrop}
                         onZoomChange={setZoom}
                         onCropComplete={handleCropComplete}
@@ -764,6 +770,7 @@ const Settings: React.FC<SettingsProps> = ({
                         Valentines
                     </button>
                 </div>
+                <ExportCard exportRef={exportRef} />
             </div>
         </div>
     );

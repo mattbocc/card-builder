@@ -1,4 +1,30 @@
-.lato-thin {
+@font-face {
+    font-family: 'Lato';
+    src: url('/fonts/Lato/Lato-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* used by .pokemon-energy */
+@font-face {
+    font-family: 'Lato';
+    src: url('/fonts/Lato/Lato-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* used by .pokemon-title */
+@font-face {
+    font-family: 'Lato';
+    src: url('/fonts/Lato/Lato-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* .lato-thin {
     font-family: 'Lato', sans-serif;
     font-weight: 100;
     font-style: normal;
@@ -56,7 +82,7 @@
     font-family: 'Lato', sans-serif;
     font-weight: 900;
     font-style: italic;
-}
+} */
 
 .pokemon-title {
     font-family: 'Lato', sans-serif;
@@ -66,7 +92,7 @@
 
 .pokemon-energy {
     font-family: 'Lato', sans-serif;
-    font-weight: 600;
+    font-weight: 700;
     font-style: normal;
 }
 

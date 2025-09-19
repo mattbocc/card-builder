@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import type { CardStyleType } from '../../types/CardStyleType';
 import type { EnergyType } from '../../types/EnergyType';
 import type { AbilityType } from '../../types/AbilityType';
@@ -20,7 +20,8 @@ type CardProps = {
     attack: AttackType;
     croppedAreaPixels: CroppedAreaPixelsType | null;
     aiImage: string;
-    isLandscape: boolean;
+    isPortrait: boolean;
+    exportRef: React.RefObject<HTMLDivElement | null>;
 };
 
 const Poke: React.FC<CardProps> = ({
@@ -37,7 +38,8 @@ const Poke: React.FC<CardProps> = ({
     attack,
     croppedAreaPixels,
     aiImage,
-    isLandscape
+    isPortrait,
+    exportRef
 }) => {
     const [outputImage, setOutputImage] = useState<string>(`/images/output/output_image.png?t=${Date.now()}`);
     useEffect(() => {
@@ -50,28 +52,38 @@ const Poke: React.FC<CardProps> = ({
     }, [croppedAreaPixels, aiImage]);
 
     return (
-        <div className="flex flex-col items-center w-[600px] sticky smd:static top-10 align-self">
+        <div className="flex flex-col items-center w-[600px] sticky smd:static top-10 align-self" ref={exportRef}>
             <img
                 src={`/images/${cardStyle.version}/${cardStyle.style}/${cardType}_${evolution.replaceAll(' ', '')}.png`}
                 alt="card-holder"
                 className="z-1"
             />
             <div className="flex flex-row absolute top-7 left-28 z-2">
-                <span className={`pokemon-title text-heading4Xl ${isLandscape ? '' : 'outline-white'}`}>{title}</span>
+                <span
+                    className={`pokemon-title text-heading4Xl whitespace-nowrap leading-none text-ellipsis ${
+                        isPortrait ? 'outline-white' : ''
+                    }`}
+                >
+                    {title}
+                </span>
             </div>
             {health ? (
                 <div className="flex flex-row items-baseline gap-2 absolute top-9 right-20 z-2 max-[50px]">
                     {showHP ? (
-                        <span className={`pokemon-title text-headingMd ${isLandscape ? '' : 'outline-white'}`}>HP</span>
+                        <span className={`pokemon-title text-headingMd ${isPortrait ? 'outline-white' : ''}`}>HP</span>
                     ) : null}
-                    <span className={`pokemon-title text-heading2Xl ${isLandscape ? '' : 'outline-white'}`}>
+                    <span
+                        className={`pokemon-title text-heading2Xl whitespace-nowrap leading-none text-ellipsis ${
+                            isPortrait ? 'outline-white' : ''
+                        }`}
+                    >
                         {health}
                     </span>
                 </div>
             ) : null}
 
-            <div className={`absolute ${isLandscape ? 'top-18' : 'h-full w-full rounded-[36px] overflow-hidden'}`}>
-                <img src={outputImage} alt="cropped" className={`${isLandscape ? 'max-h-[380px]' : 'w-full h-full'}`} />
+            <div className={`absolute ${isPortrait ? 'h-full w-full rounded-[36px] overflow-hidden' : 'top-18'}`}>
+                <img src={outputImage} alt="cropped" className={`${isPortrait ? 'w-full h-full' : 'max-h-[380px]'}`} />
             </div>
             <div className="flex flex-row gap-2 items-end absolute bottom-23.5 left-23 z-2">
                 <img src={`/images/energy/${weaknessEnergy.type}.png`} alt="weakness-energy" className="w-5 h-5" />
@@ -105,11 +117,11 @@ const Poke: React.FC<CardProps> = ({
             >
                 <div className="flex flex-row gap-8 items-start">
                     <img src="/images/sun_moon/power.png" className="min-w-44" />
-                    <h3 className={`text-headingXl text-red-800 font-bold ${isLandscape ? '' : 'outline-white'}`}>
+                    <h3 className={`text-headingXl text-red-800 font-bold ${isPortrait ? 'outline-white' : ''}`}>
                         {ability.name}
                     </h3>
                 </div>
-                <h4 className={`text-headingMd font-semibold ${isLandscape ? '' : 'outline-black text-white'}`}>
+                <h4 className={`text-headingLg font-semibold ${isPortrait ? 'outline-black text-white' : ''}`}>
                     {ability.description}
                 </h4>
             </div>
@@ -118,12 +130,12 @@ const Poke: React.FC<CardProps> = ({
                 <div className="flex flex-col gap-4 absolute bottom-52 z-4 px-12 w-full h-40">
                     <div className="flex flex-row justify-between items-end w-full">
                         <img src={`/images/energy/${attack.attackEnergy.type}.png`} className="w-6 h-6" />
-                        <h2 className={`text-headingXl font-bold ${isLandscape ? '' : 'outline-white'}`}>
+                        <h2 className={`text-headingXl font-bold ${isPortrait ? 'outline-white' : ''}`}>
                             {attack.name}
                         </h2>
                         <h3 className="text-headingXl font-bold">{attack.attackEnergy.total}</h3>
                     </div>
-                    <h4 className={`text-headingMd font-semibold ${isLandscape ? '' : 'outline-black text-white'}`}>
+                    <h4 className={`text-headingLg font-semibold ${isPortrait ? 'outline-black text-white' : ''}`}>
                         {attack.description}
                     </h4>
                 </div>
