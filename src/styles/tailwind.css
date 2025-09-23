@@ -27,6 +27,21 @@
 
     --color-red-1000: #d82c0d;
 
+    /* Pokemon Colours */
+
+    --color-fire: #3b82f6;
+    --color-water: #fdf3e2;
+    --color-grass: #fdf3e2;
+    --color-lightning: #fdf3e2;
+    --color-fighting: #fdf3e2;
+    --color-psychic: #fdf3e2;
+    --color-dragon: #fdf3e2;
+    --color-fairy: #fdf3e2;
+    --color-metal: #fdf3e2;
+    --color-colorless: #fdf3e2;
+    --color-heart: #fdf3e2;
+    --color-halloween: #fdf3e2;
+
     --color-open-border: #b6b6b6;
     --color-interactive: #2463bc;
 

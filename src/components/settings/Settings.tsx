@@ -3,6 +3,8 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { CardStyles } from './data/CardStyles.ts';
 import { EnergyTypes } from './data/EnergyTypes.ts';
+import { CardTypes } from './data/CardTypes.ts';
+import { SpecialTypes } from './data/SpecialTypes.ts';
 import { CardEvolution } from './data/CardEvolutions.ts';
 import type { CardStyleType } from '../../types/CardStyleType';
 import type { EnergyType } from '../../types/EnergyType.ts';
@@ -178,95 +180,125 @@ const Settings: React.FC<SettingsProps> = ({
                 <h2 className="text-2xl font-bold text-black">General settings</h2>
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col flex-wrap gap-6">
-                        <div className="flex flex-col gap-2">
-                            <h3 className="text-headingMd text-gray-700">Card Style</h3>
+                        <div className="flex gap-2 justify-between">
+                            <div className="flex flex-col gap-2">
+                                <h3 className="text-headingMd font-bold text-gray-700">Card Style</h3>
 
-                            <Menu as="div" className="relative inline-block w-[140px]">
-                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                    {cardStyle?.name ? cardStyle?.name : 'Card Style'}
-                                    <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
-                                </MenuButton>
+                                <Menu as="div" className="relative inline-block w-[175px]">
+                                    <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                                        {cardStyle?.name ? cardStyle?.name : 'Card Style'}
+                                        <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
+                                    </MenuButton>
 
-                                <MenuItems
-                                    transition
-                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                                >
-                                    <ScrollPanel style={{ width: '100%', height: '150px' }}>
-                                        {CardStyles.map(style => (
-                                            <MenuItem key={style.name}>
-                                                <button
-                                                    onClick={() => setCardStyle(style)}
-                                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
-                                                    key={style.name}
-                                                >
-                                                    {style.name}
-                                                </button>
-                                            </MenuItem>
-                                        ))}
-                                    </ScrollPanel>
-                                </MenuItems>
-                            </Menu>
+                                    <MenuItems
+                                        transition
+                                        className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                    >
+                                        <ScrollPanel style={{ width: '100%', height: '150px' }}>
+                                            {CardStyles.map(style => (
+                                                <MenuItem key={style.name}>
+                                                    <button
+                                                        onClick={() => setCardStyle(style)}
+                                                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                                        key={style.name}
+                                                    >
+                                                        {style.name}
+                                                    </button>
+                                                </MenuItem>
+                                            ))}
+                                        </ScrollPanel>
+                                    </MenuItems>
+                                </Menu>
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <h3 className="text-headingMd font-bold text-gray-700">Card Stage</h3>
+                                <Menu as="div" className="relative inline-block w-[175px]">
+                                    <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                                        {evolution ? evolution[0].toUpperCase() + evolution.slice(1) : 'Evolution'}
+                                        <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
+                                    </MenuButton>
+
+                                    <MenuItems
+                                        transition
+                                        className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                    >
+                                        <ScrollPanel style={{ width: '100%', height: '150px' }}>
+                                            {CardEvolution.map(evolution => (
+                                                <MenuItem key={evolution}>
+                                                    <button
+                                                        onClick={() => setEvolution(evolution)}
+                                                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                                    >
+                                                        {evolution.charAt(0).toUpperCase() + evolution.slice(1)}
+                                                    </button>
+                                                </MenuItem>
+                                            ))}
+                                        </ScrollPanel>
+                                    </MenuItems>
+                                </Menu>
+                            </div>
                         </div>
-                        <div className="flex flex-col gap-2">
-                            <h3 className="text-headingMd text-gray-700">Card Energy</h3>
-                            <Menu as="div" className="relative inline-block w-[175px]">
-                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                    {cardType ? cardType[0].toUpperCase() + cardType.slice(1) : 'Type'}
-                                    <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
-                                </MenuButton>
+                        <div className="flex flex-col gap-5">
+                            <div className="flex flex-col gap-2">
+                                <h3 className="text-headingMd font-bold text-gray-700">Card Type</h3>
+                                <div className="flex gap-2 flex-wrap">
+                                    {CardTypes.map(type => (
+                                        <button
+                                            key={type}
+                                            onClick={() => setCardType(type)}
+                                            className={`flex items-center justify-center gap-2 font-semibold border-1 border-gray-200 shadow
+										${
+                                            cardType === type
+                                                ? ' bg-gray-200'
+                                                : 'hover:bg-gray-200 hover:-translate-y-1.5'
+                                        } rounded-3xl px-3 py-2 hover:cursor-pointer
+										transition delay-150 duration-300 ease-in-out`}
+                                        >
+                                            <img src={`/images/energy/${type}.png`} className="w-5 h-5" />
+                                            {type.charAt(0).toUpperCase() + type.slice(1)}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
 
-                                <MenuItems
-                                    transition
-                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                                >
-                                    <ScrollPanel style={{ width: '100%', height: '150px' }}>
-                                        {EnergyTypes.map(type => (
-                                            <MenuItem key={type}>
-                                                <button
-                                                    onClick={() => setCardType(type)}
-                                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
-                                                >
-                                                    {type.charAt(0).toUpperCase() + type.slice(1)}
-                                                </button>
-                                            </MenuItem>
-                                        ))}
-                                    </ScrollPanel>
-                                </MenuItems>
-                            </Menu>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            <h3 className="text-headingMd text-gray-700">Card Stage</h3>
-                            <Menu as="div" className="relative inline-block w-[175px]">
-                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                    {evolution ? evolution[0].toUpperCase() + evolution.slice(1) : 'Evolution'}
-                                    <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
-                                </MenuButton>
-
-                                <MenuItems
-                                    transition
-                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                                >
-                                    <ScrollPanel style={{ width: '100%', height: '150px' }}>
-                                        {CardEvolution.map(evolution => (
-                                            <MenuItem key={evolution}>
-                                                <button
-                                                    onClick={() => setEvolution(evolution)}
-                                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
-                                                >
-                                                    {evolution.charAt(0).toUpperCase() + evolution.slice(1)}
-                                                </button>
-                                            </MenuItem>
-                                        ))}
-                                    </ScrollPanel>
-                                </MenuItems>
-                            </Menu>
+                            <div className="flex flex-col gap-2">
+                                <h3 className="text-headingMd font-bold text-gray-700">Special Card Type</h3>
+                                <div className="flex gap-2 flex-wrap">
+                                    {SpecialTypes.map(type => (
+                                        <button
+                                            key={type}
+                                            onClick={() => {
+                                                setCardType(type);
+                                                setEvolution('stage 2');
+                                                setCardStyle({
+                                                    name: 'Sun and Moon Full',
+                                                    style: 'full_art',
+                                                    version: 'sun_moon'
+                                                });
+                                                setSpecialEvent('halloween');
+                                            }}
+                                            className={`flex items-center justify-center gap-2 font-semibold border-1 border-gray-200 shadow
+										${
+                                            cardType === type
+                                                ? ' bg-gray-200'
+                                                : 'hover:bg-gray-200 hover:-translate-y-1.5'
+                                        } rounded-3xl px-3 py-2 hover:cursor-pointer
+										transition delay-150 duration-300 ease-in-out`}
+                                        >
+                                            <img src={`/images/energy/${type}.png`} className="w-5 h-5" />
+                                            {type.charAt(0).toUpperCase() + type.slice(1)}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        <h3 className="text-headingMd text-gray-700">Title</h3>
+                        <h3 className="text-headingMd font-bold text-gray-700">Title</h3>
                         <input
-                            className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200"
+                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200"
                             placeholder="0-14 characters"
                             type="text"
                             name="search"
@@ -277,7 +309,7 @@ const Settings: React.FC<SettingsProps> = ({
                     </div>
                     <div className="flex flex-col gap-2">
                         <div className="flex flex-row items-center gap-2">
-                            <h3 className="text-headingMd text-gray-700">HP</h3>
+                            <h3 className="text-headingMd font-bold text-gray-700">HP</h3>
 
                             <input
                                 type="checkbox"
@@ -288,7 +320,7 @@ const Settings: React.FC<SettingsProps> = ({
                             />
                         </div>
                         <input
-                            className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200"
+                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200"
                             placeholder="0-5 characters"
                             type="text"
                             name="search"
@@ -301,13 +333,13 @@ const Settings: React.FC<SettingsProps> = ({
             </div>
 
             <div className="flex flex-col flex-wrap gap-8 ">
-                <h2 className="text-2xl font-bold text-black">Energy Styles</h2>
+                <h2 className="text-2xl font-bold text-black">Energy Types</h2>
 
                 <div className="flex flex-col gap-2">
-                    <h3 className="text-headingMd text-gray-700">Weakness</h3>
+                    <h3 className="text-headingMd font-bold text-gray-700">Weakness</h3>
                     <div className="flex flex-row justify-center flex-wrap gap-8 ">
                         <Menu as="div" className="relative inline-block w-[125px]">
-                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
                                 {weaknessEnergy?.type
                                     ? weaknessEnergy.type[0].toUpperCase() + weaknessEnergy.type.slice(1)
                                     : 'Type'}
@@ -316,7 +348,7 @@ const Settings: React.FC<SettingsProps> = ({
 
                             <MenuItems
                                 transition
-                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                             >
                                 <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                     {EnergyTypes.map(type => (
@@ -338,7 +370,7 @@ const Settings: React.FC<SettingsProps> = ({
                             </MenuItems>
                         </Menu>
                         <input
-                            className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200"
+                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200"
                             placeholder="Number 1-4"
                             type="text"
                             name="search"
@@ -353,10 +385,10 @@ const Settings: React.FC<SettingsProps> = ({
                 </div>
 
                 <div className="flex flex-col gap-2">
-                    <h3 className="text-headingMd text-gray-700">Resistance</h3>
+                    <h3 className="text-headingMd font-bold text-gray-700">Resistance</h3>
                     <div className="flex flex-row justify-center flex-wrap gap-8 ">
                         <Menu as="div" className="relative inline-block w-[125px]">
-                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
                                 {resistanceEnergy?.type
                                     ? resistanceEnergy.type[0].toUpperCase() + resistanceEnergy.type.slice(1)
                                     : 'Type'}
@@ -365,7 +397,7 @@ const Settings: React.FC<SettingsProps> = ({
 
                             <MenuItems
                                 transition
-                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                             >
                                 <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                     {EnergyTypes.map(type => (
@@ -387,7 +419,7 @@ const Settings: React.FC<SettingsProps> = ({
                             </MenuItems>
                         </Menu>
                         <input
-                            className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200"
+                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200"
                             placeholder="Number 1-100"
                             type="text"
                             name="search"
@@ -402,10 +434,10 @@ const Settings: React.FC<SettingsProps> = ({
                 </div>
 
                 <div className="flex flex-col gap-2">
-                    <h3 className="text-headingMd text-gray-700">Retreat</h3>
+                    <h3 className="text-headingMd font-bold text-gray-700">Retreat</h3>
                     <div className="flex flex-row justify-center flex-wrap gap-8 ">
                         <Menu as="div" className="relative inline-block w-[125px]">
-                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
                                 {retreatEnergy?.type
                                     ? retreatEnergy.type[0].toUpperCase() + retreatEnergy.type.slice(1)
                                     : 'Type'}
@@ -414,7 +446,7 @@ const Settings: React.FC<SettingsProps> = ({
 
                             <MenuItems
                                 transition
-                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                             >
                                 <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                     {EnergyTypes.map(type => (
@@ -436,7 +468,7 @@ const Settings: React.FC<SettingsProps> = ({
                             </MenuItems>
                         </Menu>
                         <input
-                            className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200"
+                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200"
                             placeholder="Number 1-4"
                             type="text"
                             name="search"
@@ -452,11 +484,11 @@ const Settings: React.FC<SettingsProps> = ({
                 <div className="flex flex-col flex-wrap gap-8 ">
                     <h2 className="text-2xl font-bold text-black">Ability</h2>
                     <div className="flex flex-col gap-2">
-                        <h3 className="text-headingMd text-gray-700">Name</h3>
+                        <h3 className="text-headingMd font-bold text-gray-700">Name</h3>
 
                         <div className="flex flex-row justify-center flex-wrap gap-8 ">
                             <input
-                                className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200 w-full"
+                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 w-full"
                                 type="text"
                                 name="search"
                                 placeholder="1-24 characters"
@@ -470,10 +502,10 @@ const Settings: React.FC<SettingsProps> = ({
                         </div>
                     </div>
                     <div className="flex flex-col gap-2">
-                        <h3 className="text-headingMd text-gray-700">Description</h3>
+                        <h3 className="text-headingMd font-bold text-gray-700">Description</h3>
                         <div className="flex flex-row justify-center flex-wrap gap-8">
                             <input
-                                className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200 w-full"
+                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 w-full"
                                 type="text"
                                 name="search"
                                 placeholder="1-200 characters"
@@ -507,10 +539,10 @@ const Settings: React.FC<SettingsProps> = ({
                         />
                     </div>
                     <div className="flex flex-col gap-2">
-                        <h3 className="text-headingMd text-gray-700">Retreat</h3>
+                        <h3 className="text-headingMd font-bold text-gray-700">Retreat</h3>
                         <div className="flex flex-row justify-center flex-wrap gap-8 ">
                             <Menu as="div" className="relative inline-block w-[125px]">
-                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
                                     {attack?.attackEnergy?.type
                                         ? attack?.attackEnergy?.type[0].toUpperCase() +
                                           attack?.attackEnergy?.type.slice(1)
@@ -520,7 +552,7 @@ const Settings: React.FC<SettingsProps> = ({
 
                                 <MenuItems
                                     transition
-                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                                 >
                                     <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                         {EnergyTypes.map(type => (
@@ -547,7 +579,7 @@ const Settings: React.FC<SettingsProps> = ({
                                 </MenuItems>
                             </Menu>
                             <input
-                                className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200"
+                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200"
                                 placeholder="Number 1-9999"
                                 type="text"
                                 name="search"
@@ -566,10 +598,10 @@ const Settings: React.FC<SettingsProps> = ({
                         </div>
                     </div>
                     <div className="flex flex-col gap-2">
-                        <h3 className="text-headingMd text-gray-700">Name</h3>
+                        <h3 className="text-headingMd font-bold text-gray-700">Name</h3>
                         <div className="flex flex-row justify-center flex-wrap gap-8 ">
                             <input
-                                className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200 w-full"
+                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 w-full"
                                 type="text"
                                 name="search"
                                 placeholder="1-24 characters"
@@ -585,10 +617,10 @@ const Settings: React.FC<SettingsProps> = ({
                         </div>
                     </div>
                     <div className="flex flex-col gap-2">
-                        <h3 className="text-headingMd text-gray-700">Description</h3>
+                        <h3 className="text-headingMd font-bold text-gray-700">Description</h3>
                         <div className="flex flex-row justify-center flex-wrap gap-8 ">
                             <input
-                                className="placeholder:text-gray-500 px-3 py-1 rounded-lg border-1 border-gray-200 w-full"
+                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 w-full"
                                 type="text"
                                 name="search"
                                 placeholder="1-200 characters"
@@ -663,14 +695,14 @@ const Settings: React.FC<SettingsProps> = ({
 
                 <div className="flex gap-4">
                     <Menu as="div" className="relative inline-block w-[175px]">
-                        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
                             {imageToGenerate ? imageToGenerate : 'Select an image'}
                             <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
                         </MenuButton>
 
                         <MenuItems
                             transition
-                            className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                            className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                         >
                             <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                 {inputFileNames.map(name => (
@@ -696,14 +728,14 @@ const Settings: React.FC<SettingsProps> = ({
                 </div>
                 <div className="flex gap-4">
                     <Menu as="div" className="relative inline-block w-[175px]">
-                        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
                             {outputFile ? outputFile : 'Select an image'}
                             <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
                         </MenuButton>
 
                         <MenuItems
                             transition
-                            className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                            className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                         >
                             <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                 {outputFileNames.map(name => (
@@ -725,49 +757,6 @@ const Settings: React.FC<SettingsProps> = ({
                         onClick={() => selectImage()}
                     >
                         Choose Image
-                    </button>
-                </div>
-                <div className="flex gap-4 flex-wrap">
-                    <button
-                        className={`flex justify-center items-center gap-4 rounded-lg px-2 py-2 text-white bg-orange-900 font-semibold text-headingMd hover:cursor-pointer w-36 ${
-                            specialEvent === 'halloween' ? 'shadow-lg shadow-orange-500/70' : ''
-                        }`}
-                        onClick={() => {
-                            if (specialEvent !== 'halloween') {
-                                setSpecialEvent('halloween');
-                            } else {
-                                setSpecialEvent('');
-                            }
-                        }}
-                    >
-                        <img src="/images/general/jackolantern.svg" className="w-6" />
-                        Halloween
-                    </button>
-                    <button
-                        className={`flex justify-center items-center gap-2 rounded-lg px-2 py-2 text-white bg-red-900 font-semibold text-headingMd hover:cursor-not-allowed w-36`}
-                        // onClick={() => {
-                        //     if (specialEvent !== 'christmas') {
-                        //         setSpecialEvent('christmas');
-                        //     } else {
-                        //         setSpecialEvent('');
-                        //     }
-                        // }}
-                    >
-                        <img src="/images/general/santa-hat.svg" className="w-6" />
-                        Christmas
-                    </button>
-                    <button
-                        className={`flex justify-center items-center gap-2 rounded-lg px-2 py-2 text-white bg-pink-900 font-semibold text-headingMd hover:cursor-not-allowed w-36`}
-                        // onClick={() => {
-                        //     if (specialEvent !== 'valentines') {
-                        //         setSpecialEvent('valentines');
-                        //     } else {
-                        //         setSpecialEvent('');
-                        //     }
-                        // }}
-                    >
-                        <img src="/images/general/love-letter.svg" className="w-6" />
-                        Valentines
                     </button>
                 </div>
                 <ExportCard exportRef={exportRef} />
