@@ -198,7 +198,13 @@ const Settings: React.FC<SettingsProps> = ({
                                             {CardStyles.map(style => (
                                                 <MenuItem key={style.name}>
                                                     <button
-                                                        onClick={() => setCardStyle(style)}
+                                                        onClick={() => {
+                                                            if (SpecialTypes.includes(cardType)) {
+                                                                setCardType('colorless');
+                                                                setSpecialEvent('');
+                                                            }
+                                                            setCardStyle(style);
+                                                        }}
                                                         className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
                                                         key={style.name}
                                                     >
@@ -276,7 +282,7 @@ const Settings: React.FC<SettingsProps> = ({
                                                     style: 'full_art',
                                                     version: 'sun_moon'
                                                 });
-                                                setSpecialEvent('halloween');
+                                                setSpecialEvent(type);
                                             }}
                                             className={`flex items-center justify-center gap-2 font-semibold border-1 border-gray-200 shadow
 										${
@@ -340,15 +346,17 @@ const Settings: React.FC<SettingsProps> = ({
                     <div className="flex flex-row justify-center flex-wrap gap-8 ">
                         <Menu as="div" className="relative inline-block w-[125px]">
                             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                {weaknessEnergy?.type
-                                    ? weaknessEnergy.type[0].toUpperCase() + weaknessEnergy.type.slice(1)
-                                    : 'Type'}
+                                {weaknessEnergy?.type ? (
+                                    <img src={`/images/energy/${weaknessEnergy?.type}.png`} className="w-5 h-5" />
+                                ) : (
+                                    'Type'
+                                )}
                                 <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
                             </MenuButton>
 
                             <MenuItems
                                 transition
-                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                             >
                                 <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                     {EnergyTypes.map(type => (
@@ -360,8 +368,9 @@ const Settings: React.FC<SettingsProps> = ({
                                                         total: weaknessEnergy.total
                                                     })
                                                 }
-                                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                                className="flex gap-2 items-center font-semibold text-headingMd px-4 py-2 text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
                                             >
+                                                <img src={`/images/energy/${type}.png`} className="w-5 h-5" />
                                                 {type.charAt(0).toUpperCase() + type.slice(1)}
                                             </button>
                                         </MenuItem>
@@ -389,15 +398,17 @@ const Settings: React.FC<SettingsProps> = ({
                     <div className="flex flex-row justify-center flex-wrap gap-8 ">
                         <Menu as="div" className="relative inline-block w-[125px]">
                             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                {resistanceEnergy?.type
-                                    ? resistanceEnergy.type[0].toUpperCase() + resistanceEnergy.type.slice(1)
-                                    : 'Type'}
+                                {resistanceEnergy?.type ? (
+                                    <img src={`/images/energy/${resistanceEnergy?.type}.png`} className="w-5 h-5" />
+                                ) : (
+                                    'Type'
+                                )}
                                 <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
                             </MenuButton>
 
                             <MenuItems
                                 transition
-                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                             >
                                 <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                     {EnergyTypes.map(type => (
@@ -409,8 +420,9 @@ const Settings: React.FC<SettingsProps> = ({
                                                         total: resistanceEnergy.total
                                                     })
                                                 }
-                                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                                className="flex gap-2 items-center font-semibold text-headingMd px-4 py-2 text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
                                             >
+                                                <img src={`/images/energy/${type}.png`} className="w-5 h-5" />
                                                 {type.charAt(0).toUpperCase() + type.slice(1)}
                                             </button>
                                         </MenuItem>
@@ -438,15 +450,17 @@ const Settings: React.FC<SettingsProps> = ({
                     <div className="flex flex-row justify-center flex-wrap gap-8 ">
                         <Menu as="div" className="relative inline-block w-[125px]">
                             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                {retreatEnergy?.type
-                                    ? retreatEnergy.type[0].toUpperCase() + retreatEnergy.type.slice(1)
-                                    : 'Type'}
+                                {retreatEnergy?.type ? (
+                                    <img src={`/images/energy/${retreatEnergy?.type}.png`} className="w-5 h-5" />
+                                ) : (
+                                    'Type'
+                                )}
                                 <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
                             </MenuButton>
 
                             <MenuItems
                                 transition
-                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                             >
                                 <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                     {EnergyTypes.map(type => (
@@ -458,8 +472,9 @@ const Settings: React.FC<SettingsProps> = ({
                                                         total: retreatEnergy.total
                                                     })
                                                 }
-                                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                                className="flex gap-2 items-center font-semibold text-headingMd px-4 py-2 text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
                                             >
+                                                <img src={`/images/energy/${type}.png`} className="w-5 h-5" />
                                                 {type.charAt(0).toUpperCase() + type.slice(1)}
                                             </button>
                                         </MenuItem>
@@ -543,16 +558,20 @@ const Settings: React.FC<SettingsProps> = ({
                         <div className="flex flex-row justify-center flex-wrap gap-8 ">
                             <Menu as="div" className="relative inline-block w-[125px]">
                                 <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                    {attack?.attackEnergy?.type
-                                        ? attack?.attackEnergy?.type[0].toUpperCase() +
-                                          attack?.attackEnergy?.type.slice(1)
-                                        : 'Type'}
+                                    {attack?.attackEnergy?.type ? (
+                                        <img
+                                            src={`/images/energy/${attack?.attackEnergy?.type}.png`}
+                                            className="w-5 h-5"
+                                        />
+                                    ) : (
+                                        'Type'
+                                    )}
                                     <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
                                 </MenuButton>
 
                                 <MenuItems
                                     transition
-                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                    className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                                 >
                                     <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                         {EnergyTypes.map(type => (
@@ -569,8 +588,9 @@ const Settings: React.FC<SettingsProps> = ({
                                                             show: attack.show
                                                         })
                                                     }
-                                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                                    className="flex gap-2 items-center font-semibold text-headingMd px-4 py-2 text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
                                                 >
+                                                    <img src={`/images/energy/${type}.png`} className="w-5 h-5" />
                                                     {type.charAt(0).toUpperCase() + type.slice(1)}
                                                 </button>
                                             </MenuItem>
@@ -667,7 +687,7 @@ const Settings: React.FC<SettingsProps> = ({
                 <div className="flex gap-4 w-full">
                     <div className="flex">
                         <label
-                            className="flex items-center text-center justify-center gap-2 text-sm font-semibold text-gray-900 border-1 border-gray-200 w-[175px] px-3 py-[7px] rounded-md hover:cursor-pointer overflow-hidden "
+                            className="w-[175px] inline-flex justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50"
                             htmlFor="img"
                         >
                             {file ? file.name : 'Select a jpeg'}
