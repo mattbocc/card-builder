@@ -4,11 +4,12 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { CardStyles } from './data/CardStyles.ts';
 import { EnergyTypes } from './data/EnergyTypes.ts';
 import { CardTypes } from './data/CardTypes.ts';
-import { SpecialTypes } from './data/SpecialTypes.ts';
+import { SpecialCardTypes } from './data/SpecialCardTypes.ts';
 import { CardEvolution } from './data/CardEvolutions.ts';
 import type { CardStyleType } from '../../types/CardStyleType';
 import type { EnergyType } from '../../types/EnergyType.ts';
 import { ScrollPanel } from 'primereact/scrollpanel';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import type { AbilityType } from '../../types/AbilityType.ts';
 import type { AttackType } from '../../types/AttackType.ts';
 import type { CropperType } from '../../types/CropperType';
@@ -91,6 +92,8 @@ const Settings: React.FC<SettingsProps> = ({
     const [outputFileNames, setOutputFileNames] = useState<string[]>(['']);
     const [outputFile, setOutputFile] = useState<string>('');
     const [imageToGenerate, setImageToGenerate] = useState<string>('');
+    const [ongoingGeneration, setOngoingGeneration] = useState<boolean>(false);
+
     // select portrait
     const [specialEvent, setSpecialEvent] = useState<string>('');
     const [prompt, setPrompt] = useState<string>('');
@@ -115,6 +118,7 @@ const Settings: React.FC<SettingsProps> = ({
     }
 
     async function generateImage() {
+        setOngoingGeneration(true);
         try {
             const res = await axios.post('/api/poke/image/create', {
                 image_name: imageToGenerate,
@@ -124,9 +128,14 @@ const Settings: React.FC<SettingsProps> = ({
                 special_event: specialEvent ? specialEvent : null
             });
             console.log(res.data);
+            alert('Image Generation Complete!');
         } catch (error) {
             console.log(error);
+            alert(error);
+            setOngoingGeneration(false);
         }
+        setOngoingGeneration(false);
+        getFileNames();
     }
 
     async function selectImage() {
@@ -144,18 +153,19 @@ const Settings: React.FC<SettingsProps> = ({
         }
     }
 
-    useEffect(() => {
-        async function getFileNames() {
-            try {
-                const res_input = await axios.get('/api/poke/image/get/inputs');
-                const res_output = await axios.get('/api/poke/image/get/outputs');
-                setInputFileNames(res_input.data);
-                setOutputFileNames(res_output.data);
-            } catch (error) {
-                console.log(error);
-                alert(error);
-            }
+    async function getFileNames() {
+        try {
+            const res_input = await axios.get('/api/poke/image/get/inputs');
+            const res_output = await axios.get('/api/poke/image/get/outputs');
+            setInputFileNames(res_input.data);
+            setOutputFileNames(res_output.data);
+        } catch (error) {
+            console.log(error);
+            alert(error);
         }
+    }
+
+    useEffect(() => {
         getFileNames();
     }, []);
 
@@ -199,7 +209,7 @@ const Settings: React.FC<SettingsProps> = ({
                                                 <MenuItem key={style.name}>
                                                     <button
                                                         onClick={() => {
-                                                            if (SpecialTypes.includes(cardType)) {
+                                                            if (SpecialCardTypes.includes(cardType)) {
                                                                 setCardType('colorless');
                                                                 setSpecialEvent('');
                                                             }
@@ -261,7 +271,7 @@ const Settings: React.FC<SettingsProps> = ({
                                         } rounded-3xl px-3 py-2 hover:cursor-pointer
 										transition delay-150 duration-300 ease-in-out`}
                                         >
-                                            <img src={`/images/energy/${type}.png`} className="w-5 h-5" />
+                                            <img src={`/images/card_types/${type}.png`} className="w-5 h-5" />
                                             {type.charAt(0).toUpperCase() + type.slice(1)}
                                         </button>
                                     ))}
@@ -271,7 +281,7 @@ const Settings: React.FC<SettingsProps> = ({
                             <div className="flex flex-col gap-2">
                                 <h3 className="text-headingMd font-bold text-gray-700">Special Card Type</h3>
                                 <div className="flex gap-2 flex-wrap">
-                                    {SpecialTypes.map(type => (
+                                    {SpecialCardTypes.map(type => (
                                         <button
                                             key={type}
                                             onClick={() => {
@@ -304,7 +314,7 @@ const Settings: React.FC<SettingsProps> = ({
                     <div className="flex flex-col gap-2">
                         <h3 className="text-headingMd font-bold text-gray-700">Title</h3>
                         <input
-                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200"
+                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin"
                             placeholder="0-14 characters"
                             type="text"
                             name="search"
@@ -326,7 +336,7 @@ const Settings: React.FC<SettingsProps> = ({
                             />
                         </div>
                         <input
-                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200"
+                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin"
                             placeholder="0-5 characters"
                             type="text"
                             name="search"
@@ -379,7 +389,7 @@ const Settings: React.FC<SettingsProps> = ({
                             </MenuItems>
                         </Menu>
                         <input
-                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200"
+                            className="placeholder:text-gray-500 px-4 py-1 rounded-2xl border-1 border-gray-200 font-thin"
                             placeholder="Number 1-4"
                             type="text"
                             name="search"
@@ -431,7 +441,7 @@ const Settings: React.FC<SettingsProps> = ({
                             </MenuItems>
                         </Menu>
                         <input
-                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200"
+                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin"
                             placeholder="Number 1-100"
                             type="text"
                             name="search"
@@ -483,7 +493,7 @@ const Settings: React.FC<SettingsProps> = ({
                             </MenuItems>
                         </Menu>
                         <input
-                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200"
+                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin"
                             placeholder="Number 1-4"
                             type="text"
                             name="search"
@@ -503,7 +513,7 @@ const Settings: React.FC<SettingsProps> = ({
 
                         <div className="flex flex-row justify-center flex-wrap gap-8 ">
                             <input
-                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 w-full"
+                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin w-full"
                                 type="text"
                                 name="search"
                                 placeholder="1-24 characters"
@@ -520,7 +530,7 @@ const Settings: React.FC<SettingsProps> = ({
                         <h3 className="text-headingMd font-bold text-gray-700">Description</h3>
                         <div className="flex flex-row justify-center flex-wrap gap-8">
                             <input
-                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 w-full"
+                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin w-full"
                                 type="text"
                                 name="search"
                                 placeholder="1-200 characters"
@@ -599,7 +609,7 @@ const Settings: React.FC<SettingsProps> = ({
                                 </MenuItems>
                             </Menu>
                             <input
-                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200"
+                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin"
                                 placeholder="Number 1-9999"
                                 type="text"
                                 name="search"
@@ -621,7 +631,7 @@ const Settings: React.FC<SettingsProps> = ({
                         <h3 className="text-headingMd font-bold text-gray-700">Name</h3>
                         <div className="flex flex-row justify-center flex-wrap gap-8 ">
                             <input
-                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 w-full"
+                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin w-full"
                                 type="text"
                                 name="search"
                                 placeholder="1-24 characters"
@@ -640,7 +650,7 @@ const Settings: React.FC<SettingsProps> = ({
                         <h3 className="text-headingMd font-bold text-gray-700">Description</h3>
                         <div className="flex flex-row justify-center flex-wrap gap-8 ">
                             <input
-                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 w-full"
+                                className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin w-full"
                                 type="text"
                                 name="search"
                                 placeholder="1-200 characters"
@@ -683,104 +693,130 @@ const Settings: React.FC<SettingsProps> = ({
                     />
                 </div>
             </div>
-            <div className="flex flex-col w-full gap-6 items-start">
-                <div className="flex gap-4 w-full">
-                    <div className="flex">
-                        <label
-                            className="w-[175px] inline-flex justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50"
-                            htmlFor="img"
-                        >
-                            {file ? file.name : 'Select a jpeg'}
-                            <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-800" />
-                        </label>
-                        <input
-                            type="file"
-                            className="hidden"
-                            accept="image/jpeg"
-                            onChange={e => {
-                                const f = e.target.files?.[0] ?? null;
-                                setFile(f);
-                            }}
-                            id="img"
-                            name="file"
-                        />
+            {!ongoingGeneration ? (
+                <div>
+                    <div className="flex flex-col w-full gap-6 items-start">
+                        <div className="flex items-baseline justify-between w-full">
+                            <Menu as="div" className="relative inline-block w-[175px]">
+                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                                    {outputFile ? outputFile : 'Select an image'}
+                                    <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
+                                </MenuButton>
+
+                                <MenuItems
+                                    transition
+                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                >
+                                    <ScrollPanel style={{ width: '100%', height: '150px' }}>
+                                        {outputFileNames.map(name => (
+                                            <MenuItem key={name}>
+                                                <button
+                                                    onClick={() => setOutputFile(name)}
+                                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                                    key={name}
+                                                >
+                                                    {name}
+                                                </button>
+                                            </MenuItem>
+                                        ))}
+                                    </ScrollPanel>
+                                </MenuItems>
+                            </Menu>
+                            <button
+                                className="hover:cursor-pointer px-2 py-2 transition delay-50 duration-100 ease-in-out hover:bg-gray-100 rounded-full"
+                                onClick={() => getFileNames()}
+                            >
+                                <img src="/images/general_icons/reload.svg" className="w-4" />
+                            </button>
+                            <button
+                                className="flex px-1 py-2 rounded-2xl justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[140px] hover:bg-blue-500 transition delay-50 duration-100 ease-in-out"
+                                onClick={() => selectImage()}
+                            >
+                                Choose Image
+                            </button>
+                        </div>
+                        <div className="flex items-baseline justify-between w-full">
+                            <div className="flex">
+                                <label
+                                    className="w-[175px] inline-flex justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50"
+                                    htmlFor="img"
+                                >
+                                    {file ? file.name : 'Select a jpeg'}
+                                    <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-800" />
+                                </label>
+                                <input
+                                    type="file"
+                                    className="hidden"
+                                    accept="image/jpeg"
+                                    onChange={e => {
+                                        const f = e.target.files?.[0] ?? null;
+                                        setFile(f);
+                                    }}
+                                    id="img"
+                                    name="file"
+                                />
+                            </div>
+                            <button
+                                className="flex px-1 py-2 rounded-2xl justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[140px] hover:bg-blue-500 transition delay-50 duration-100 ease-in-out"
+                                onClick={() => submitImage()}
+                            >
+                                Upload Image
+                            </button>
+                        </div>
+
+                        <div className="flex items-baseline justify-between w-full">
+                            <Menu as="div" className="relative inline-block w-[175px]">
+                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                                    {imageToGenerate ? imageToGenerate : 'Select an image'}
+                                    <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
+                                </MenuButton>
+
+                                <MenuItems
+                                    transition
+                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                >
+                                    <ScrollPanel style={{ width: '100%', height: '150px' }}>
+                                        {inputFileNames.map(name => (
+                                            <MenuItem key={name}>
+                                                <button
+                                                    onClick={() => setImageToGenerate(name)}
+                                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                                    key={name}
+                                                >
+                                                    {name}
+                                                </button>
+                                            </MenuItem>
+                                        ))}
+                                    </ScrollPanel>
+                                </MenuItems>
+                            </Menu>
+                            <button
+                                className="hover:cursor-pointer px-2 py-2 transition delay-50 duration-100 ease-in-out hover:bg-gray-100 rounded-full"
+                                onClick={() => getFileNames()}
+                            >
+                                <img src="/images/general_icons/reload.svg" className="w-4" />
+                            </button>
+                            <button
+                                className="flex px-1 py-2 rounded-2xl justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[140px] hover:bg-blue-500 transition delay-50 duration-100 ease-in-out"
+                                onClick={() => generateImage()}
+                            >
+                                Generate Image
+                            </button>
+                        </div>
+                        <div className="flex flex-col w-full items-center">
+                            <ExportCard exportRef={exportRef} />
+                        </div>
                     </div>
-                    <button
-                        className="flex flex-col px-3 py-1 rounded-md justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[160px]"
-                        onClick={() => submitImage()}
-                    >
-                        Upload Image
-                    </button>
                 </div>
-
-                <div className="flex gap-4">
-                    <Menu as="div" className="relative inline-block w-[175px]">
-                        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                            {imageToGenerate ? imageToGenerate : 'Select an image'}
-                            <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
-                        </MenuButton>
-
-                        <MenuItems
-                            transition
-                            className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                        >
-                            <ScrollPanel style={{ width: '100%', height: '150px' }}>
-                                {inputFileNames.map(name => (
-                                    <MenuItem key={name}>
-                                        <button
-                                            onClick={() => setImageToGenerate(name)}
-                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
-                                            key={name}
-                                        >
-                                            {name}
-                                        </button>
-                                    </MenuItem>
-                                ))}
-                            </ScrollPanel>
-                        </MenuItems>
-                    </Menu>
-                    <button
-                        className="flex flex-col px-3 py-1 rounded-md justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[160px]"
-                        onClick={() => generateImage()}
-                    >
-                        Generate AI Image
-                    </button>
+            ) : (
+                <div>
+                    <ProgressSpinner
+                        style={{ width: '200px', height: '200px' }}
+                        strokeWidth="5"
+                        animationDuration="1.5s"
+                    />
                 </div>
-                <div className="flex gap-4">
-                    <Menu as="div" className="relative inline-block w-[175px]">
-                        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                            {outputFile ? outputFile : 'Select an image'}
-                            <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
-                        </MenuButton>
-
-                        <MenuItems
-                            transition
-                            className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                        >
-                            <ScrollPanel style={{ width: '100%', height: '150px' }}>
-                                {outputFileNames.map(name => (
-                                    <MenuItem key={name}>
-                                        <button
-                                            onClick={() => setOutputFile(name)}
-                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
-                                            key={name}
-                                        >
-                                            {name}
-                                        </button>
-                                    </MenuItem>
-                                ))}
-                            </ScrollPanel>
-                        </MenuItems>
-                    </Menu>
-                    <button
-                        className="flex flex-col px-3 py-1 rounded-md justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[160px]"
-                        onClick={() => selectImage()}
-                    >
-                        Choose Image
-                    </button>
-                </div>
-                <ExportCard exportRef={exportRef} />
-            </div>
+            )}
         </div>
     );
 };

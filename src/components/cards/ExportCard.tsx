@@ -33,10 +33,11 @@ const ExportCard: React.FC<ExportProps> = ({ exportRef }) => {
 
     return (
         <button
-            className="flex flex-col px-3 py-2 rounded-md justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[160px]"
+            className="flex gap-2 px-1 py-2 rounded-2xl justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[180px] hover:bg-blue-500 transition delay-50 duration-100 ease-in-out"
             onClick={exportAsImage}
         >
-            Export Card
+            <img src="/images/general_icons/download-white.svg" className="w-5" />
+            Download Card
         </button>
     );
 };
