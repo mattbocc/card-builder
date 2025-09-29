@@ -243,7 +243,13 @@ const Settings: React.FC<SettingsProps> = ({
                                             {CardEvolution.map(evolution => (
                                                 <MenuItem key={evolution}>
                                                     <button
-                                                        onClick={() => setEvolution(evolution)}
+                                                        onClick={() => {
+                                                            if (SpecialCardTypes.includes(cardType)) {
+                                                                setCardType('colorless');
+                                                                setSpecialEvent('');
+                                                            }
+                                                            setEvolution(evolution);
+                                                        }}
                                                         className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
                                                     >
                                                         {evolution.charAt(0).toUpperCase() + evolution.slice(1)}
