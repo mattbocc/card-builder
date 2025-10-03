@@ -105,7 +105,9 @@ const Home: React.FC = () => {
                     cardStyle={cardStyle}
                     cardType={cardType}
                     evolution={evolution}
+                    title={title}
                     showHP={showHP}
+                    health={health}
                     weaknessEnergy={weaknessEnergy}
                     resistanceEnergy={resistanceEnergy}
                     retreatEnergy={retreatEnergy}

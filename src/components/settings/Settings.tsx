@@ -17,6 +17,7 @@ import type { CroppedAreaPixelsType } from '../../types/CroppedAreaPixelsType.ts
 import Cropper from 'react-easy-crop';
 import axios from 'axios';
 import ExportCard from '../cards/ExportCard.tsx';
+import SubmitCardSettings from '../cards/SubmitCardSettings.tsx';
 
 type SettingsProps = {
     setCardStyle: React.Dispatch<React.SetStateAction<CardStyleType>>;
@@ -39,6 +40,8 @@ type SettingsProps = {
     cardType: string;
     evolution: string;
     showHP: boolean;
+    title: string;
+    health: string;
     weaknessEnergy: EnergyType;
     resistanceEnergy: EnergyType;
     retreatEnergy: EnergyType;
@@ -71,7 +74,9 @@ const Settings: React.FC<SettingsProps> = ({
     cardStyle,
     cardType,
     evolution,
+    title,
     showHP,
+    health,
     weaknessEnergy,
     resistanceEnergy,
     retreatEnergy,
@@ -550,7 +555,7 @@ const Settings: React.FC<SettingsProps> = ({
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col flex-wrap gap-8">
+                {/* <div className="flex flex-col flex-wrap gap-8">
                     <div className="flex gap-2 w-full items-baseline">
                         <h2 className="text-2xl font-bold text-black">Attack</h2>
                         <input
@@ -671,7 +676,7 @@ const Settings: React.FC<SettingsProps> = ({
                             />
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div className="flex flex-col justify-center gap-4">
                 <h2 className="text-2xl font-bold text-black">Image</h2>
@@ -809,8 +814,21 @@ const Settings: React.FC<SettingsProps> = ({
                                 Generate Image
                             </button>
                         </div>
-                        <div className="flex flex-col w-full items-center">
+                        <div className="flex flex-row w-full justify-between items-center">
                             <ExportCard exportRef={exportRef} />
+                            <SubmitCardSettings
+                                cardStyle={cardStyle}
+                                evolution={evolution}
+                                cardType={cardType}
+                                specialEvent={specialEvent}
+                                title={title}
+                                showHP={showHP}
+                                health={health}
+                                weaknessEnergy={weaknessEnergy}
+                                resistanceEnergy={resistanceEnergy}
+                                retreatEnergy={retreatEnergy}
+                                ability={ability}
+                            />
                         </div>
                     </div>
                 </div>
