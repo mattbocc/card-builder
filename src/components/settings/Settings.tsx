@@ -190,12 +190,12 @@ const Settings: React.FC<SettingsProps> = ({
     }, [aiImage]);
 
     return (
-        <div className="flex flex-col items-center justify-center flex-wrap wrap-normal gap-8 w-[500px] py-10 bg-white rounded-lg border-1 border-gray-200 px-14">
+        <div className="flex flex-col items-center justify-center gap-8 w-[500px] smd:w-[350px] py-10 bg-white rounded-lg border-1 border-gray-200 px-14 smd:px-6">
             <div className="flex flex-col flex-wrap gap-8 w-full">
                 <h2 className="text-2xl font-bold text-black">General settings</h2>
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col flex-wrap gap-6">
-                        <div className="flex gap-2 justify-between">
+                        <div className="flex gap-2 justify-between smd:flex-col smd:gap-4">
                             <div className="flex flex-col gap-2">
                                 <h3 className="text-headingMd font-bold text-gray-700">Card Style</h3>
 
@@ -359,13 +359,13 @@ const Settings: React.FC<SettingsProps> = ({
                 </div>
             </div>
 
-            <div className="flex flex-col flex-wrap gap-8 ">
+            <div className="flex flex-col flex-wrap gap-8">
                 <h2 className="text-2xl font-bold text-black">Energy Types</h2>
 
                 <div className="flex flex-col gap-2">
                     <h3 className="text-headingMd font-bold text-gray-700">Weakness</h3>
-                    <div className="flex flex-row justify-center flex-wrap gap-8 ">
-                        <Menu as="div" className="relative inline-block w-[125px]">
+                    <div className="flex flex-row justify-center flex-wrap gap-8 smd:flex-nowrap smd:gap-2">
+                        <Menu as="div" className="relative inline-block w-[125px] smd:w-[100px]">
                             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
                                 {weaknessEnergy?.type ? (
                                     <img src={`/images/energy/${weaknessEnergy?.type}.png`} className="w-5 h-5" />
@@ -416,8 +416,8 @@ const Settings: React.FC<SettingsProps> = ({
 
                 <div className="flex flex-col gap-2">
                     <h3 className="text-headingMd font-bold text-gray-700">Resistance</h3>
-                    <div className="flex flex-row justify-center flex-wrap gap-8 ">
-                        <Menu as="div" className="relative inline-block w-[125px]">
+                    <div className="flex flex-row justify-center flex-wrap gap-8 smd:flex-nowrap smd:gap-2 ">
+                        <Menu as="div" className="relative inline-block w-[125px] smd:w-[100px]">
                             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
                                 {resistanceEnergy?.type ? (
                                     <img src={`/images/energy/${resistanceEnergy?.type}.png`} className="w-5 h-5" />
@@ -468,8 +468,8 @@ const Settings: React.FC<SettingsProps> = ({
 
                 <div className="flex flex-col gap-2">
                     <h3 className="text-headingMd font-bold text-gray-700">Retreat</h3>
-                    <div className="flex flex-row justify-center flex-wrap gap-8 ">
-                        <Menu as="div" className="relative inline-block w-[125px]">
+                    <div className="flex flex-row justify-center flex-wrap gap-8 smd:flex-nowrap smd:gap-2 ">
+                        <Menu as="div" className="relative inline-block w-[125px] smd:w-[100px]">
                             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
                                 {retreatEnergy?.type ? (
                                     <img src={`/images/energy/${retreatEnergy?.type}.png`} className="w-5 h-5" />
@@ -522,7 +522,7 @@ const Settings: React.FC<SettingsProps> = ({
                     <div className="flex flex-col gap-2">
                         <h3 className="text-headingMd font-bold text-gray-700">Name</h3>
 
-                        <div className="flex flex-row justify-center flex-wrap gap-8 ">
+                        <div className="flex flex-row justify-center flex-wrap gap-8 smd:flex-nowrap smd:gap-2 ">
                             <input
                                 className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin w-full"
                                 type="text"
@@ -539,7 +539,7 @@ const Settings: React.FC<SettingsProps> = ({
                     </div>
                     <div className="flex flex-col gap-2">
                         <h3 className="text-headingMd font-bold text-gray-700">Description</h3>
-                        <div className="flex flex-row justify-center flex-wrap gap-8">
+                        <div className="flex flex-row justify-center flex-wrap gap-8 smd:flex-nowrap smd:gap-2">
                             <input
                                 className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin w-full"
                                 type="text"
@@ -576,8 +576,8 @@ const Settings: React.FC<SettingsProps> = ({
                     </div>
                     <div className="flex flex-col gap-2">
                         <h3 className="text-headingMd font-bold text-gray-700">Retreat</h3>
-                        <div className="flex flex-row justify-center flex-wrap gap-8 ">
-                            <Menu as="div" className="relative inline-block w-[125px]">
+                        <div className="flex flex-row justify-center flex-wrap gap-8 smd:flex-nowrap smd:gap-2 ">
+                            <Menu as="div" className="relative inline-block w-[125px] smd:w-[100px]">
                                 <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
                                     {attack?.attackEnergy?.type ? (
                                         <img
@@ -640,7 +640,7 @@ const Settings: React.FC<SettingsProps> = ({
                     </div>
                     <div className="flex flex-col gap-2">
                         <h3 className="text-headingMd font-bold text-gray-700">Name</h3>
-                        <div className="flex flex-row justify-center flex-wrap gap-8 ">
+                        <div className="flex flex-row justify-center flex-wrap gap-8 smd:flex-nowrap smd:gap-2 ">
                             <input
                                 className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin w-full"
                                 type="text"
@@ -659,7 +659,7 @@ const Settings: React.FC<SettingsProps> = ({
                     </div>
                     <div className="flex flex-col gap-2">
                         <h3 className="text-headingMd font-bold text-gray-700">Description</h3>
-                        <div className="flex flex-row justify-center flex-wrap gap-8 ">
+                        <div className="flex flex-row justify-center flex-wrap gap-8 smd:flex-nowrap smd:gap-2 ">
                             <input
                                 className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin w-full"
                                 type="text"
@@ -680,7 +680,9 @@ const Settings: React.FC<SettingsProps> = ({
             </div>
             <div className="flex flex-col justify-center gap-4">
                 <h2 className="text-2xl font-bold text-black">Image</h2>
-                <div className={`relative w-[420px] h-[280px] rounded-md overflow-hidden border border-gray-200 `}>
+                <div
+                    className={`relative w-[420px] h-[280px] smd:w-[325px] smd:h-[250px] rounded-md overflow-hidden border border-gray-200 `}
+                >
                     <Cropper
                         image={aiImage}
                         crop={crop}
@@ -700,7 +702,7 @@ const Settings: React.FC<SettingsProps> = ({
                         step={0.01}
                         value={zoom}
                         onChange={e => setZoom(Number(e.target.value))}
-                        className="w-[420px]"
+                        className="w-[325px]"
                     />
                 </div>
             </div>

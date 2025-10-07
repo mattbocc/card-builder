@@ -67,7 +67,7 @@ const Home: React.FC = () => {
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-100">
-            <div className="flex flex-row mx-auto items-start gap-10 pt-10 pb-32">
+            <div className="flex flex-row col:flex-col mx-auto items-start justify-center col:items-center gap-10 pt-10 pb-32">
                 <Poke
                     cardStyle={cardStyle}
                     cardType={cardType}
