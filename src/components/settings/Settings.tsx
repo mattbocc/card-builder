@@ -678,10 +678,10 @@ const Settings: React.FC<SettingsProps> = ({
                     </div>
                 </div> */}
             </div>
-            <div className="flex flex-col justify-center gap-4">
+            <div className="flex flex-col justify-center items-center gap-4">
                 <h2 className="text-2xl font-bold text-black">Image</h2>
                 <div
-                    className={`relative w-[420px] h-[280px] smd:w-[325px] smd:h-[250px] rounded-md overflow-hidden border border-gray-200 `}
+                    className={`relative w-[420px] h-[280px] smd:w-[300px] smd:h-[200px] rounded-md overflow-hidden border border-gray-200 `}
                 >
                     <Cropper
                         image={aiImage}
@@ -693,7 +693,7 @@ const Settings: React.FC<SettingsProps> = ({
                         onCropComplete={handleCropComplete}
                     />
                 </div>
-                <div>
+                <div className="flex flex-row justify-center items-center gap-2 w-full">
                     <label className="text-sm text-gray-600">Zoom</label>
                     <input
                         type="range"
@@ -702,7 +702,7 @@ const Settings: React.FC<SettingsProps> = ({
                         step={0.01}
                         value={zoom}
                         onChange={e => setZoom(Number(e.target.value))}
-                        className="w-[325px]"
+                        className="w-[325px] smd:w-[250px]"
                     />
                 </div>
             </div>
