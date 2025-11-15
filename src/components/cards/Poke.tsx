@@ -41,7 +41,7 @@ const Poke: React.FC<CardProps> = ({
     isPortrait,
     exportRef
 }) => {
-    const [outputImage, setOutputImage] = useState<string>(`/images/output/output_image.png?t=${Date.now()}`);
+    const [outputImage, setOutputImage] = useState<string>(`/images/placeholders/halloween.jpeg`);
     useEffect(() => {
         async function getCroppedImage() {
             if (!croppedAreaPixels) return;
@@ -137,7 +137,7 @@ const Poke: React.FC<CardProps> = ({
 
             <div
                 className={`flex flex-col gap-6 smd:gap-3 absolute z-4 px-12 smd:px-7 w-full ${
-                    attack.show ? 'bottom-74' : 'bottom-52 smd:bottom-22'
+                    attack.show ? 'bottom-74' : 'bottom-40 smd:bottom-10'
                 } h-28`}
             >
                 <div className="flex flex-row gap-8 smd:gap-5 items-start">

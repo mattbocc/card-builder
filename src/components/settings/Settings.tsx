@@ -92,87 +92,18 @@ const Settings: React.FC<SettingsProps> = ({
         setCroppedAreaPixels(pixels);
     }, []);
 
-    const [file, setFile] = useState<File | null>(null);
-    const [inputFileNames, setInputFileNames] = useState<string[]>(['']);
-    const [outputFileNames, setOutputFileNames] = useState<string[]>(['']);
+    const [outputFileNames, setOutputFileNames] = useState<string[]>(['base.png', 'halloween.jpeg', 'christmas.png']);
     const [outputFile, setOutputFile] = useState<string>('');
-    const [imageToGenerate, setImageToGenerate] = useState<string>('');
-    const [ongoingGeneration, setOngoingGeneration] = useState<boolean>(false);
 
     // select portrait
-    const [specialEvent, setSpecialEvent] = useState<string>('');
+    const [specialEvent, setSpecialEvent] = useState<string>('christmas');
     const [prompt, setPrompt] = useState<string>('');
 
-    async function submitImage() {
-        if (!file) {
-            alert('Please insert an image before submitting');
-            return;
-        }
-        const formData = new FormData();
-        formData.append('file', file, file.name);
-        try {
-            const res = await axios.post('/api/poke/image/upload', formData, {
-                headers: { 'Content-type': 'multipart/form-data' }
-            });
-            console.log(res.data.message);
-            alert(res.data.message);
-        } catch (error) {
-            console.log(error);
-            alert(error);
-        }
-    }
-
-    async function generateImage() {
-        setOngoingGeneration(true);
-        try {
-            const res = await axios.post('/api/poke/image/create', {
-                image_name: imageToGenerate,
-                type: cardType,
-                stage: evolution,
-                portrait: isPortrait,
-                special_event: specialEvent ? specialEvent : null
-            });
-            console.log(res.data);
-            alert('Image Generation Complete!');
-        } catch (error) {
-            console.log(error);
-            alert(error);
-            setOngoingGeneration(false);
-        }
-        setOngoingGeneration(false);
-        getFileNames();
-    }
-
     async function selectImage() {
-        try {
-            const res = await axios.get(`/api/poke/image/get/static/${outputFile}?t=${Date.now()}`, {
-                responseType: 'blob'
-            });
-            console.log(res.data);
-            const url = URL.createObjectURL(res.data);
-            console.log(url);
-            setAiImage(url);
-            setCroppedAreaPixels(null);
-        } catch (error) {
-            console.log(error);
-        }
+        console.log(outputFile);
+        setAiImage(`/images/placeholders/${outputFile}`);
+        setCroppedAreaPixels(null);
     }
-
-    async function getFileNames() {
-        try {
-            const res_input = await axios.get('/api/poke/image/get/inputs');
-            const res_output = await axios.get('/api/poke/image/get/outputs');
-            setInputFileNames(res_input.data);
-            setOutputFileNames(res_output.data);
-        } catch (error) {
-            console.log(error);
-            alert(error);
-        }
-    }
-
-    useEffect(() => {
-        getFileNames();
-    }, []);
 
     useEffect(() => {
         async function setOrientation() {
@@ -195,100 +126,7 @@ const Settings: React.FC<SettingsProps> = ({
                 <h2 className="text-2xl font-bold text-black">General settings</h2>
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col flex-wrap gap-6">
-                        <div className="flex gap-2 justify-between smd:flex-col smd:gap-4">
-                            <div className="flex flex-col gap-2">
-                                <h3 className="text-headingMd font-bold text-gray-700">Card Style</h3>
-
-                                <Menu as="div" className="relative inline-block w-[175px]">
-                                    <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                        {cardStyle?.name ? cardStyle?.name : 'Card Style'}
-                                        <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
-                                    </MenuButton>
-
-                                    <MenuItems
-                                        transition
-                                        className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                                    >
-                                        <ScrollPanel style={{ width: '100%', height: '150px' }}>
-                                            {CardStyles.map(style => (
-                                                <MenuItem key={style.name}>
-                                                    <button
-                                                        onClick={() => {
-                                                            if (SpecialCardTypes.includes(cardType)) {
-                                                                setCardType('colorless');
-                                                                setSpecialEvent('');
-                                                            }
-                                                            setCardStyle(style);
-                                                        }}
-                                                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
-                                                        key={style.name}
-                                                    >
-                                                        {style.name}
-                                                    </button>
-                                                </MenuItem>
-                                            ))}
-                                        </ScrollPanel>
-                                    </MenuItems>
-                                </Menu>
-                            </div>
-
-                            <div className="flex flex-col gap-2">
-                                <h3 className="text-headingMd font-bold text-gray-700">Card Stage</h3>
-                                <Menu as="div" className="relative inline-block w-[175px]">
-                                    <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                        {evolution ? evolution[0].toUpperCase() + evolution.slice(1) : 'Evolution'}
-                                        <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
-                                    </MenuButton>
-
-                                    <MenuItems
-                                        transition
-                                        className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                                    >
-                                        <ScrollPanel style={{ width: '100%', height: '150px' }}>
-                                            {CardEvolution.map(evolution => (
-                                                <MenuItem key={evolution}>
-                                                    <button
-                                                        onClick={() => {
-                                                            if (SpecialCardTypes.includes(cardType)) {
-                                                                setCardType('colorless');
-                                                                setSpecialEvent('');
-                                                            }
-                                                            setEvolution(evolution);
-                                                        }}
-                                                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
-                                                    >
-                                                        {evolution.charAt(0).toUpperCase() + evolution.slice(1)}
-                                                    </button>
-                                                </MenuItem>
-                                            ))}
-                                        </ScrollPanel>
-                                    </MenuItems>
-                                </Menu>
-                            </div>
-                        </div>
                         <div className="flex flex-col gap-5">
-                            <div className="flex flex-col gap-2">
-                                <h3 className="text-headingMd font-bold text-gray-700">Card Type</h3>
-                                <div className="flex gap-2 flex-wrap">
-                                    {CardTypes.map(type => (
-                                        <button
-                                            key={type}
-                                            onClick={() => setCardType(type)}
-                                            className={`flex items-center justify-center gap-2 font-semibold border-1 border-gray-200 shadow
-										${
-                                            cardType === type
-                                                ? ' bg-gray-200'
-                                                : 'hover:bg-gray-200 hover:-translate-y-1.5'
-                                        } rounded-3xl px-3 py-2 hover:cursor-pointer
-										transition delay-150 duration-300 ease-in-out`}
-                                        >
-                                            <img src={`/images/card_types/${type}.png`} className="w-5 h-5" />
-                                            {type.charAt(0).toUpperCase() + type.slice(1)}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
                             <div className="flex flex-col gap-2">
                                 <h3 className="text-headingMd font-bold text-gray-700">Special Card Type</h3>
                                 <div className="flex gap-2 flex-wrap">
@@ -678,10 +516,10 @@ const Settings: React.FC<SettingsProps> = ({
                     </div>
                 </div> */}
             </div>
-            <div className="flex flex-col justify-center gap-4">
+            <div className="flex flex-col justify-center items-center gap-4">
                 <h2 className="text-2xl font-bold text-black">Image</h2>
                 <div
-                    className={`relative w-[420px] h-[280px] smd:w-[325px] smd:h-[250px] rounded-md overflow-hidden border border-gray-200 `}
+                    className={`relative w-[420px] h-[280px] smd:w-[300px] smd:h-[200px] rounded-md overflow-hidden border border-gray-200 `}
                 >
                     <Cropper
                         image={aiImage}
@@ -693,7 +531,7 @@ const Settings: React.FC<SettingsProps> = ({
                         onCropComplete={handleCropComplete}
                     />
                 </div>
-                <div>
+                <div className="flex flex-row justify-center items-center gap-2 w-full">
                     <label className="text-sm text-gray-600">Zoom</label>
                     <input
                         type="range"
@@ -702,147 +540,65 @@ const Settings: React.FC<SettingsProps> = ({
                         step={0.01}
                         value={zoom}
                         onChange={e => setZoom(Number(e.target.value))}
-                        className="w-[325px]"
+                        className="w-[325px] smd:w-[250px]"
                     />
                 </div>
             </div>
-            {!ongoingGeneration ? (
-                <div>
-                    <div className="flex flex-col w-full gap-6 items-start">
-                        <div className="flex items-baseline justify-between w-full">
-                            <Menu as="div" className="relative inline-block w-[175px]">
-                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                    {outputFile ? outputFile : 'Select an image'}
-                                    <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
-                                </MenuButton>
 
-                                <MenuItems
-                                    transition
-                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                                >
-                                    <ScrollPanel style={{ width: '100%', height: '150px' }}>
-                                        {outputFileNames.map(name => (
-                                            <MenuItem key={name}>
-                                                <button
-                                                    onClick={() => setOutputFile(name)}
-                                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
-                                                    key={name}
-                                                >
-                                                    {name}
-                                                </button>
-                                            </MenuItem>
-                                        ))}
-                                    </ScrollPanel>
-                                </MenuItems>
-                            </Menu>
-                            <button
-                                className="hover:cursor-pointer px-2 py-2 transition delay-50 duration-100 ease-in-out hover:bg-gray-100 rounded-full"
-                                onClick={() => getFileNames()}
-                            >
-                                <img src="/images/general_icons/reload.svg" className="w-4" />
-                            </button>
-                            <button
-                                className="flex px-1 py-2 rounded-2xl justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[140px] hover:bg-blue-500 transition delay-50 duration-100 ease-in-out"
-                                onClick={() => selectImage()}
-                            >
-                                Choose Image
-                            </button>
-                        </div>
-                        <div className="flex items-baseline justify-between w-full">
-                            <div className="flex">
-                                <label
-                                    className="w-[175px] inline-flex justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50"
-                                    htmlFor="img"
-                                >
-                                    {file ? file.name : 'Select a jpeg'}
-                                    <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-800" />
-                                </label>
-                                <input
-                                    type="file"
-                                    className="hidden"
-                                    accept="image/jpeg"
-                                    onChange={e => {
-                                        const f = e.target.files?.[0] ?? null;
-                                        setFile(f);
-                                    }}
-                                    id="img"
-                                    name="file"
-                                />
-                            </div>
-                            <button
-                                className="flex px-1 py-2 rounded-2xl justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[140px] hover:bg-blue-500 transition delay-50 duration-100 ease-in-out"
-                                onClick={() => submitImage()}
-                            >
-                                Upload Image
-                            </button>
-                        </div>
+            <div>
+                <div className="flex flex-col w-full gap-6 items-start">
+                    <div className="flex items-baseline justify-between w-full">
+                        <Menu as="div" className="relative inline-block w-[175px]">
+                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                                {outputFile ? outputFile : 'Select an image'}
+                                <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
+                            </MenuButton>
 
-                        <div className="flex items-baseline justify-between w-full">
-                            <Menu as="div" className="relative inline-block w-[175px]">
-                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                    {imageToGenerate ? imageToGenerate : 'Select an image'}
-                                    <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
-                                </MenuButton>
+                            <MenuItems
+                                transition
+                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                            >
+                                <ScrollPanel style={{ width: '100%', height: '150px' }}>
+                                    {outputFileNames.map(name => (
+                                        <MenuItem key={name}>
+                                            <button
+                                                onClick={() => setOutputFile(name)}
+                                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                                key={name}
+                                            >
+                                                {name}
+                                            </button>
+                                        </MenuItem>
+                                    ))}
+                                </ScrollPanel>
+                            </MenuItems>
+                        </Menu>
 
-                                <MenuItems
-                                    transition
-                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                                >
-                                    <ScrollPanel style={{ width: '100%', height: '150px' }}>
-                                        {inputFileNames.map(name => (
-                                            <MenuItem key={name}>
-                                                <button
-                                                    onClick={() => setImageToGenerate(name)}
-                                                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
-                                                    key={name}
-                                                >
-                                                    {name}
-                                                </button>
-                                            </MenuItem>
-                                        ))}
-                                    </ScrollPanel>
-                                </MenuItems>
-                            </Menu>
-                            <button
-                                className="hover:cursor-pointer px-2 py-2 transition delay-50 duration-100 ease-in-out hover:bg-gray-100 rounded-full"
-                                onClick={() => getFileNames()}
-                            >
-                                <img src="/images/general_icons/reload.svg" className="w-4" />
-                            </button>
-                            <button
-                                className="flex px-1 py-2 rounded-2xl justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[140px] hover:bg-blue-500 transition delay-50 duration-100 ease-in-out"
-                                onClick={() => generateImage()}
-                            >
-                                Generate Image
-                            </button>
-                        </div>
-                        <div className="flex flex-row w-full justify-between items-center">
-                            <ExportCard exportRef={exportRef} />
-                            <SubmitCardSettings
-                                cardStyle={cardStyle}
-                                evolution={evolution}
-                                cardType={cardType}
-                                specialEvent={specialEvent}
-                                title={title}
-                                showHP={showHP}
-                                health={health}
-                                weaknessEnergy={weaknessEnergy}
-                                resistanceEnergy={resistanceEnergy}
-                                retreatEnergy={retreatEnergy}
-                                ability={ability}
-                            />
-                        </div>
+                        <button
+                            className="flex px-1 py-2 rounded-2xl justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer w-[140px] hover:bg-blue-500 transition delay-50 duration-100 ease-in-out"
+                            onClick={() => selectImage()}
+                        >
+                            Choose Image
+                        </button>
+                    </div>
+                    <div className="flex flex-row w-full justify-between items-center">
+                        <ExportCard exportRef={exportRef} />
+                        <SubmitCardSettings
+                            cardStyle={cardStyle}
+                            evolution={evolution}
+                            cardType={cardType}
+                            specialEvent={specialEvent}
+                            title={title}
+                            showHP={showHP}
+                            health={health}
+                            weaknessEnergy={weaknessEnergy}
+                            resistanceEnergy={resistanceEnergy}
+                            retreatEnergy={retreatEnergy}
+                            ability={ability}
+                        />
                     </div>
                 </div>
-            ) : (
-                <div>
-                    <ProgressSpinner
-                        style={{ width: '200px', height: '200px' }}
-                        strokeWidth="5"
-                        animationDuration="1.5s"
-                    />
-                </div>
-            )}
+            </div>
         </div>
     );
 };

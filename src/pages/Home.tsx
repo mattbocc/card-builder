@@ -14,11 +14,11 @@ const Home: React.FC = () => {
     // General Section
     const [cardStyle, setCardStyle] = useState<CardStyleType>({
         name: 'Sun and Moon',
-        style: 'regular',
+        style: 'full_art',
         version: 'sun_moon'
     });
-    const [cardType, setCardType] = useState<string>('colorless');
-    const [evolution, setEvolution] = useState<string>('basic');
+    const [cardType, setCardType] = useState<string>('christmas');
+    const [evolution, setEvolution] = useState<string>('stage2');
     const [title, setTitle] = useState<string>('');
     const [health, setHealth] = useState<string>('');
     const [showHP, setShowHP] = useState<boolean>(true);
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
     });
     const [zoom, setZoom] = useState<number>(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<CroppedAreaPixelsType | null>(null);
-    const [aiImage, setAiImage] = React.useState<string>('/images/output/output_image.png');
+    const [aiImage, setAiImage] = React.useState<string>('/images/placeholders/halloween.jpeg');
     const [isPortrait, setIsPortrait] = useState<boolean>(false);
 
     // Pokemon Card export
