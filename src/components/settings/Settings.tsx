@@ -313,7 +313,7 @@ const Settings: React.FC<SettingsProps> = ({
                                         } rounded-3xl px-3 py-2 hover:cursor-pointer
 										transition delay-150 duration-300 ease-in-out`}
                                         >
-                                            <img src={`/images/energy/${type}.png`} className="w-5 h-5" />
+                                            <img src={`/images/card_types/${type}.png`} className="w-5 h-5" />
                                             {type.charAt(0).toUpperCase() + type.slice(1)}
                                         </button>
                                     ))}
