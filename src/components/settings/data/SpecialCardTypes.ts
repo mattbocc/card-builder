@@ -1,3 +1,3 @@
 export const SpecialCardTypes: string[] = [
-	"halloween"
+	"halloween", "christmas"
 ]
