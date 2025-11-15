@@ -59,7 +59,7 @@ const Home: React.FC = () => {
     });
     const [zoom, setZoom] = useState<number>(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<CroppedAreaPixelsType | null>(null);
-    const [aiImage, setAiImage] = React.useState<string>('/images/placeholders/halloween.jpeg');
+    const [aiImage, setAiImage] = React.useState<string>('/images/placeholders/christmas_one.jpeg');
     const [isPortrait, setIsPortrait] = useState<boolean>(false);
 
     // Pokemon Card export

@@ -41,7 +41,7 @@ const Poke: React.FC<CardProps> = ({
     isPortrait,
     exportRef
 }) => {
-    const [outputImage, setOutputImage] = useState<string>(`/images/placeholders/halloween.jpeg`);
+    const [outputImage, setOutputImage] = useState<string>(`/images/placeholders/christmas_one.jpeg`);
     useEffect(() => {
         async function getCroppedImage() {
             if (!croppedAreaPixels) return;
