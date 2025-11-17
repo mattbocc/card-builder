@@ -200,7 +200,7 @@ const Settings: React.FC<SettingsProps> = ({
                 <div className="flex flex-col gap-2">
                     <h3 className="text-headingMd font-bold text-gray-700">Weakness</h3>
                     <div className="flex flex-row justify-center flex-wrap gap-8 smd:flex-nowrap smd:gap-2">
-                        <Menu as="div" className="relative inline-block w-[125px] smd:w-[100px]">
+                        <Menu as="div" className="relative inline-block w-[125px] smd:w-[75px]">
                             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
                                 {weaknessEnergy?.type ? (
                                     <img src={`/images/energy/${weaknessEnergy?.type}.png`} className="w-5 h-5" />
@@ -235,7 +235,7 @@ const Settings: React.FC<SettingsProps> = ({
                             </MenuItems>
                         </Menu>
                         <input
-                            className="placeholder:text-gray-500 px-4 py-1 rounded-2xl border-1 border-gray-200 font-thin"
+                            className="placeholder:text-gray-500 px-4 py-1 rounded-2xl border-1 border-gray-200 font-thin smd:max-w-[200px]"
                             placeholder="Number 1-4"
                             type="text"
                             name="search"
@@ -252,7 +252,7 @@ const Settings: React.FC<SettingsProps> = ({
                 <div className="flex flex-col gap-2">
                     <h3 className="text-headingMd font-bold text-gray-700">Resistance</h3>
                     <div className="flex flex-row justify-center flex-wrap gap-8 smd:flex-nowrap smd:gap-2 ">
-                        <Menu as="div" className="relative inline-block w-[125px] smd:w-[100px]">
+                        <Menu as="div" className="relative inline-block w-[125px] smd:w-[75px]">
                             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
                                 {resistanceEnergy?.type ? (
                                     <img src={`/images/energy/${resistanceEnergy?.type}.png`} className="w-5 h-5" />
@@ -287,7 +287,7 @@ const Settings: React.FC<SettingsProps> = ({
                             </MenuItems>
                         </Menu>
                         <input
-                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin"
+                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin smd:max-w-[200px]"
                             placeholder="Number 1-100"
                             type="text"
                             name="search"
@@ -304,7 +304,7 @@ const Settings: React.FC<SettingsProps> = ({
                 <div className="flex flex-col gap-2">
                     <h3 className="text-headingMd font-bold text-gray-700">Retreat</h3>
                     <div className="flex flex-row justify-center flex-wrap gap-8 smd:flex-nowrap smd:gap-2 ">
-                        <Menu as="div" className="relative inline-block w-[125px] smd:w-[100px]">
+                        <Menu as="div" className="relative inline-block w-[125px] smd:w-[75px]">
                             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
                                 {retreatEnergy?.type ? (
                                     <img src={`/images/energy/${retreatEnergy?.type}.png`} className="w-5 h-5" />
@@ -339,7 +339,7 @@ const Settings: React.FC<SettingsProps> = ({
                             </MenuItems>
                         </Menu>
                         <input
-                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin"
+                            className="placeholder:text-gray-500 px-3 py-1 rounded-2xl border-1 border-gray-200 font-thin smd:max-w-[200px]"
                             placeholder="Number 1-4"
                             type="text"
                             name="search"
@@ -546,9 +546,9 @@ const Settings: React.FC<SettingsProps> = ({
                 <div className="flex flex-col w-full gap-6 items-start">
                     <div className="flex flex-row gap-4 items-baseline justify-between w-full">
                         <Menu as="div" className="relative inline-block w-[160px]">
-                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 smd:text-headingXs rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
                                 {outputFile ? outputFile : 'Select an image'}
-                                <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
+                                <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 smd:size-4 text-gray-400" />
                             </MenuButton>
 
                             <MenuItems
@@ -572,7 +572,7 @@ const Settings: React.FC<SettingsProps> = ({
                         </Menu>
 
                         <button
-                            className="flex px-4 py-2 rounded-2xl justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer hover:bg-blue-500 transition delay-50 duration-100 ease-in-out"
+                            className="flex px-4 py-2 rounded-2xl justify-center items-center font-semibold text-headingMd smd:text-headingXs text-white bg-blue-700 hover:cursor-pointer hover:bg-blue-500 transition delay-50 duration-100 ease-in-out"
                             onClick={() => selectImage()}
                         >
                             Choose Image

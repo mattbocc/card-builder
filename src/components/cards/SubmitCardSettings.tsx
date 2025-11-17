@@ -29,7 +29,7 @@ const SubmitButton: React.FC<SubmitProps> = submission => {
     }
     return (
         <button
-            className="flex gap-2 px-3 py-2 rounded-2xl justify-center items-center font-semibold text-headingMd text-white bg-blue-700 hover:cursor-pointer hover:bg-blue-500 transition delay-50 duration-100 ease-in-out"
+            className="flex gap-2 px-3 py-2 rounded-2xl justify-center items-center font-semibold text-headingMd smd:text-headingXs text-white bg-blue-700 hover:cursor-pointer hover:bg-blue-500 transition delay-50 duration-100 ease-in-out"
             onClick={() => submitSettings()}
         >
             <img src="/images/general_icons/submit-white.png" className="w-5" />

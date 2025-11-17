@@ -123,7 +123,7 @@
 /* Custom variants for your max-width breakpoints */
 
 @custom-variant lg (@media (width <= 1500px));
-@custom-variant col (@media (width <= 1180px));
+@custom-variant col (@media (width <= 1200px));
 @custom-variant md (@media (width <= 1050px));
 @custom-variant wrapSmall (@media (width <= 950px));
 @custom-variant smd (@media (width <= 800px));

@@ -53,7 +53,7 @@ const Poke: React.FC<CardProps> = ({
 
     return (
         <div
-            className="flex flex-col items-center w-[600px] smd:w-[350px] sticky smd:relative top-10 align-self"
+            className="flex flex-col items-center w-[600px] smd:w-[350px] sticky col:relative top-10 align-self"
             ref={exportRef}
         >
             <img
