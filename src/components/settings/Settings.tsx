@@ -212,7 +212,7 @@ const Settings: React.FC<SettingsProps> = ({
 
                             <MenuItems
                                 transition
-                                className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                className="absolute left-0 z-10 mt-2 w-40 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                             >
                                 <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                     {EnergyTypes.map(type => (
@@ -264,7 +264,7 @@ const Settings: React.FC<SettingsProps> = ({
 
                             <MenuItems
                                 transition
-                                className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                className="absolute left-0 z-10 mt-2 w-40 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                             >
                                 <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                     {EnergyTypes.map(type => (
@@ -316,7 +316,7 @@ const Settings: React.FC<SettingsProps> = ({
 
                             <MenuItems
                                 transition
-                                className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                className="absolute left-0 z-10 mt-2 w-40 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                             >
                                 <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                     {EnergyTypes.map(type => (
@@ -427,7 +427,7 @@ const Settings: React.FC<SettingsProps> = ({
 
                                 <MenuItems
                                     transition
-                                    className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                    className="absolute left-0 z-10 mt-2 w-40 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                                 >
                                     <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                         {EnergyTypes.map(type => (
@@ -553,7 +553,7 @@ const Settings: React.FC<SettingsProps> = ({
 
                             <MenuItems
                                 transition
-                                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                             >
                                 <ScrollPanel style={{ width: '100%', height: '150px' }}>
                                     {outputFileNames.map(name => (
