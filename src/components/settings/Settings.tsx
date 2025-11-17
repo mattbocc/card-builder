@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { CardStyles } from './data/CardStyles.ts';
 import { EnergyTypes } from './data/EnergyTypes.ts';
-import { CardTypes } from './data/CardTypes.ts';
 import { SpecialCardTypes } from './data/SpecialCardTypes.ts';
-import { CardEvolution } from './data/CardEvolutions.ts';
 import type { CardStyleType } from '../../types/CardStyleType';
 import type { EnergyType } from '../../types/EnergyType.ts';
 import { ScrollPanel } from 'primereact/scrollpanel';
-import { ProgressSpinner } from 'primereact/progressspinner';
 import type { AbilityType } from '../../types/AbilityType.ts';
 import type { AttackType } from '../../types/AttackType.ts';
 import type { CropperType } from '../../types/CropperType';
 import type { CroppedAreaPixelsType } from '../../types/CroppedAreaPixelsType.ts';
 import Cropper from 'react-easy-crop';
-import axios from 'axios';
 import ExportCard from '../cards/ExportCard.tsx';
 import SubmitCardSettings from '../cards/SubmitCardSettings.tsx';
 
@@ -65,7 +60,6 @@ const Settings: React.FC<SettingsProps> = ({
     setResistanceEnergy,
     setRetreatEnergy,
     setAbility,
-    setAttack,
     setCrop,
     setZoom,
     setCroppedAreaPixels,
@@ -81,7 +75,6 @@ const Settings: React.FC<SettingsProps> = ({
     resistanceEnergy,
     retreatEnergy,
     ability,
-    attack,
     crop,
     zoom,
     aiImage,
@@ -91,7 +84,7 @@ const Settings: React.FC<SettingsProps> = ({
     const handleCropComplete = React.useCallback((_area: any, pixels: any) => {
         setCroppedAreaPixels(pixels);
     }, []);
-
+    // @ts-ignore
     const [outputFileNames, setOutputFileNames] = useState<string[]>([
         'base.png',
         'halloween.jpeg',
@@ -102,7 +95,6 @@ const Settings: React.FC<SettingsProps> = ({
 
     // select portrait
     const [specialEvent, setSpecialEvent] = useState<string>('christmas');
-    const [prompt, setPrompt] = useState<string>('');
 
     async function selectImage() {
         console.log(outputFile);

@@ -1,5 +1,6 @@
 import React from 'react';
 import { toPng } from 'html-to-image';
+// @ts-ignore
 import { saveAs } from 'file-saver';
 
 type ExportProps = { exportRef: React.RefObject<HTMLDivElement | null> };
