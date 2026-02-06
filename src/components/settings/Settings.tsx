@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { InputText } from 'primereact/inputtext';
+import { FloatLabel } from 'primereact/floatlabel';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { EnergyTypes } from './data/EnergyTypes.ts';
@@ -12,7 +14,7 @@ import type { CropperType } from '../../types/CropperType';
 import type { CroppedAreaPixelsType } from '../../types/CroppedAreaPixelsType.ts';
 import Cropper from 'react-easy-crop';
 import ExportCard from '../cards/ExportCard.tsx';
-import SubmitCardSettings from '../cards/SubmitCardSettings.tsx';
+import SubmitCardSettings from '../submission/SubmitCardSettings.tsx';
 
 type SettingsProps = {
     setCardStyle: React.Dispatch<React.SetStateAction<CardStyleType>>;
@@ -93,8 +95,11 @@ const Settings: React.FC<SettingsProps> = ({
     ]);
     const [outputFile, setOutputFile] = useState<string>('');
 
-    // select portrait
+    // Card default state
     const [specialEvent, setSpecialEvent] = useState<string>('christmas');
+
+    // Etsy-order number state
+    const [orderNumber, setOrderNumber] = useState<string>('');
 
     async function selectImage() {
         console.log(outputFile);
@@ -542,58 +547,64 @@ const Settings: React.FC<SettingsProps> = ({
                 </div>
             </div>
 
-            <div>
-                <div className="flex flex-col w-full gap-6 items-start">
-                    <div className="flex flex-row gap-4 items-baseline justify-between w-full">
-                        <Menu as="div" className="relative inline-block w-[160px]">
-                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 smd:text-headingXs rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
-                                {outputFile ? outputFile : 'Select an image'}
-                                <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 smd:size-4 text-gray-400" />
-                            </MenuButton>
+            <div className="flex flex-col w-full items-start">
+                <div className="flex flex-row flex-wrap gap-4 justify-center items-baseline-last w-full">
+                    <Menu as="div" className="relative inline-block min-w-[170px]">
+                        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 smd:text-headingXs rounded-2xl bg-white py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-200 hover:bg-gray-50">
+                            {outputFile ? outputFile : 'Select an image'}
+                            <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 smd:size-4 text-gray-400" />
+                        </MenuButton>
 
-                            <MenuItems
-                                transition
-                                className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                            >
-                                <ScrollPanel style={{ width: '100%', height: '150px' }}>
-                                    {outputFileNames.map(name => (
-                                        <MenuItem key={name}>
-                                            <button
-                                                onClick={() => setOutputFile(name)}
-                                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
-                                                key={name}
-                                            >
-                                                {name}
-                                            </button>
-                                        </MenuItem>
-                                    ))}
-                                </ScrollPanel>
-                            </MenuItems>
-                        </Menu>
-
-                        <button
-                            className="flex px-4 py-2 rounded-2xl justify-center items-center font-semibold text-headingMd smd:text-headingXs text-white bg-blue-700 hover:cursor-pointer hover:bg-blue-500 transition delay-50 duration-100 ease-in-out"
-                            onClick={() => selectImage()}
+                        <MenuItems
+                            transition
+                            className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-2xl overflow-hidden bg-white shadow-lg outline-1 outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                         >
-                            Choose Image
-                        </button>
-                    </div>
-                    <div className="flex flex-row gap-4 w-full justify-between items-center">
-                        <ExportCard exportRef={exportRef} />
-                        <SubmitCardSettings
-                            cardStyle={cardStyle}
-                            evolution={evolution}
-                            cardType={cardType}
-                            specialEvent={specialEvent}
-                            title={title}
-                            showHP={showHP}
-                            health={health}
-                            weaknessEnergy={weaknessEnergy}
-                            resistanceEnergy={resistanceEnergy}
-                            retreatEnergy={retreatEnergy}
-                            ability={ability}
+                            <ScrollPanel style={{ width: '100%', height: '150px' }}>
+                                {outputFileNames.map(name => (
+                                    <MenuItem key={name}>
+                                        <button
+                                            onClick={() => {
+                                                selectImage();
+                                                setOutputFile(name);
+                                            }}
+                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-gray-100 text-left w-full"
+                                            key={name}
+                                        >
+                                            {name}
+                                        </button>
+                                    </MenuItem>
+                                ))}
+                            </ScrollPanel>
+                        </MenuItems>
+                    </Menu>
+                    <ExportCard exportRef={exportRef} />
+
+                    <div className="flex flex-col justify-center gap-0.5">
+                        <label htmlFor="order-num" className="text-bodyXs ml-2">
+                            Etsy Order Number
+                        </label>
+                        <input
+                            id="order-num"
+                            placeholder="Ex. 123456XXXXXX"
+                            value={orderNumber}
+                            onChange={e => setOrderNumber(e.target.value)}
+                            className="border-1 max-w-[170px] border-gray-300 px-3 py-0.5 rounded-full"
                         />
                     </div>
+                    <SubmitCardSettings
+                        cardStyle={cardStyle}
+                        evolution={evolution}
+                        cardType={cardType}
+                        specialEvent={specialEvent}
+                        title={title}
+                        showHP={showHP}
+                        health={health}
+                        weaknessEnergy={weaknessEnergy}
+                        resistanceEnergy={resistanceEnergy}
+                        retreatEnergy={retreatEnergy}
+                        ability={ability}
+                        orderNumber={orderNumber}
+                    />
                 </div>
             </div>
         </div>
